@@ -13,6 +13,7 @@ public enum ServerProperties {
 
 	public String getProperty() {
         Properties server = new Properties();
+
         try {
             server.load(new FileInputStream(Constants.SERVER_PROPERTIES.get()));
         } catch (Exception e) { // TODO retornar para o main logar e sair
