@@ -1,7 +1,13 @@
+D:\me\PUCRS\sistemas distribuidos\git\ebruschSpeculate\src\main\java\com\eduardo\speculate\server\main\SpeculateRemote.java
 D:\me\PUCRS\sistemas distribuidos\git\ebruschSpeculate\src\main\java\com\eduardo\speculate\server\comm\rmi\ServerInterface.java
 D:\me\PUCRS\sistemas distribuidos\git\ebruschSpeculate\src\main\java\com\eduardo\speculate\commons\Constants.java
 D:\me\PUCRS\sistemas distribuidos\git\ebruschSpeculate\src\main\java\com\eduardo\speculate\server\comm\rmi\ServerImpl.java
 D:\me\PUCRS\sistemas distribuidos\git\ebruschSpeculate\src\main\java\com\eduardo\speculate\server\main\SpeculateGameServer.java
+D:\me\PUCRS\sistemas distribuidos\git\ebruschSpeculate\src\main\java\com\eduardo\speculate\game\GameBoard.java
+D:\me\PUCRS\sistemas distribuidos\git\ebruschSpeculate\src\main\java\com\eduardo\speculate\server\main\SpeculateRemoteImpl.java
+D:\me\PUCRS\sistemas distribuidos\git\ebruschSpeculate\src\main\java\com\eduardo\speculate\client\main\SpeculateGameClient.java
+D:\me\PUCRS\sistemas distribuidos\git\ebruschSpeculate\src\main\java\com\eduardo\speculate\server\main\Player.java
+D:\me\PUCRS\sistemas distribuidos\git\ebruschSpeculate\src\main\java\com\eduardo\speculate\game\SixFaceDice.java
 D:\me\PUCRS\sistemas distribuidos\git\ebruschSpeculate\src\main\java\com\eduardo\speculate\commons\Strings.java
 D:\me\PUCRS\sistemas distribuidos\git\ebruschSpeculate\src\main\java\com\eduardo\speculate\App.java
 D:\me\PUCRS\sistemas distribuidos\git\ebruschSpeculate\src\main\java\com\eduardo\speculate\server\main\ServerProperties.java
