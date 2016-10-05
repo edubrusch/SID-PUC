@@ -7,7 +7,7 @@ public enum Strings {
 	WELCOME_CLIENT("Starting Speculate client."),
 	WELCOME_SERVER("Starting Speculate server."),
 	GOODBYE_CLIENT("Leaving Speculate client."),
-	GOODBYE_SERVER("Leaving Speculate server."),
+	ACTIVE_SERVER("Leaving Speculate is running."),
 	GENERAL_EXECUTION_ERROR("Error: Some external factor cased this program to  stop. I'll need exit."),
 	GENERAL_IO_ERROR("ERROR: Failed to load game files. Please verify the integrty of all the game files.");
 

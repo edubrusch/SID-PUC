@@ -5,7 +5,7 @@ import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 
-import com.eduardo.speculate.server.main.SpeculateRemote;
+import com.eduardo.speculate.server.SpeculateRemote;
 
 public class SpeculateGameClient {
 

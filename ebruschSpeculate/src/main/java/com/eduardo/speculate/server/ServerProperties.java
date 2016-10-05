@@ -1,4 +1,4 @@
-package com.eduardo.speculate.server.main;
+package com.eduardo.speculate.server;
 
 import java.io.FileInputStream;
 import java.util.Properties;
