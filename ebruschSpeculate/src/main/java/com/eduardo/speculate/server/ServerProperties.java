@@ -9,21 +9,22 @@ import com.eduardo.speculate.commons.Strings;
 public enum ServerProperties {
 
 	CONNECTION_PORT,
-	MAX_LOBBY_SIZE;
+	MAX_MATCH_COUNT,
+	DEFAULT_PLAYER_BALL_COUNT;
 
-	public String getProperty() {
+	public String getString() {
         Properties server = new Properties();
 
         try {
             server.load(new FileInputStream(Constants.SERVER_PROPERTIES.get()));
-        } catch (Exception e) { // TODO retornar para o main logar e sair
+        } catch (Exception e) {
             throw new RuntimeException(Strings.GENERAL_IO_ERROR.get(), e);
         }
         return server.getProperty(this.name());
     }
 
-    public String get() {
-        return getProperty();
+    public int getInt() {
+        return Integer.parseInt(getString());
     }
 
 }

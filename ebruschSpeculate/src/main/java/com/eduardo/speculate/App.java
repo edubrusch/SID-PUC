@@ -1,6 +1,8 @@
 package com.eduardo.speculate;
 
+import java.net.MalformedURLException;
 import java.rmi.Naming;
+import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 
 import com.eduardo.speculate.client.main.SpeculateGameClient;
@@ -11,7 +13,7 @@ import com.eduardo.speculate.server.SpeculateRemote;
 public class App {
 
 	public static void main(String[] args) {
-		final SpeculateGameClient client;		
+		final SpeculateGameClient client;
 
 		if (args.length == 0 || args.length % 2 != 0 ) {
 
@@ -22,17 +24,24 @@ public class App {
 		} else {
 			if (args[0].equals("-m")) {
 
-				if (args[1].equals("server")) {					
+				if (args[1].equals("server")) {
 					System.out.println(Strings.WELCOME_SERVER.get());
 					try {
-						SpeculateGameServer remote = new SpeculateGameServer();						
+						SpeculateGameServer remote = new SpeculateGameServer();
 						SpeculateRemote stub = (SpeculateRemote) UnicastRemoteObject.exportObject(remote, 0);
 						java.rmi.registry.LocateRegistry.createRegistry(1099);
 						Naming.rebind ("PID", stub);
-						System.out.println ("PidServer is ready.");
-					} catch (Exception e) {						
+					} catch (MalformedURLException e) {
+						System.out.println(Strings.GENERAL_NETWORK_ERROR.get());
 						e.printStackTrace();
-					}			
+					} catch (RemoteException e) {
+						System.out.println(Strings.GENERAL_NETWORK_ERROR.get());
+						e.printStackTrace();
+					} catch (NumberFormatException e) {
+						System.out.println(Strings.GENERAL_IO_ERROR.get());
+						e.printStackTrace();
+					}
+
 					System.out.println(Strings.ACTIVE_SERVER.get());
 
 				}else {
