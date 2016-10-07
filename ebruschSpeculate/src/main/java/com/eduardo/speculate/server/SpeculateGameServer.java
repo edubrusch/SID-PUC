@@ -32,8 +32,6 @@ public class SpeculateGameServer implements SpeculateRemote{
 	 */
 
 
-	//returns the player iD
-	@Override
 	public int getPID() throws RemoteException {
 
 		int pid;
@@ -53,21 +51,27 @@ public class SpeculateGameServer implements SpeculateRemote{
 
 	// logic that determines whether it's the current player time based on their ID
 	//also controls the game state
-	@Override
 	public GameState getNextMove(int playerID) throws RemoteException {
+		
+		GameRoom current = getGameRoom(playerID);
 
-		if(!getGameRoom(playerID).full()) {
+		if(!current.full()) {
 			// game didn't began yet
 			return null;
 		} else {
-
+			// validade for game current state
+			if(!current.isOngoingGame()) {
+				if(current.isNext(playerID)){
+					return new GameState(getCurrentBoard(), getAdversaryRemainingMoves(playerID), true);
+				} else {
+					return new GameState(getCurrentBoard(), getAdversaryRemainingMoves(playerID), true);
+				}
+			} 
 		}
-
 
 		return new GameState(getCurrentBoard(), getAdversaryRemainingMoves(playerID), isNextPlayer(playerID));
 	}
 
-	@Override
 	public int getNewGame(int playerID) throws RemoteException {
 		// TODO Auto-generated method stub
 		return 0;

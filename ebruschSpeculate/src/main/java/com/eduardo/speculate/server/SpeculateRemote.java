@@ -5,9 +5,7 @@ import java.rmi.RemoteException;
 
 public interface SpeculateRemote extends Remote{
 
-	public int getPID() throws RemoteException;
-
-	public int getNewGame(int playerID) throws RemoteException;
+	public int getPID() throws RemoteException;	
 
 	public GameState getNextMove(int playerID)  throws RemoteException;
 
