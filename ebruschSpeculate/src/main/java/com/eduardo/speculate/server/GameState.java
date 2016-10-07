@@ -4,6 +4,13 @@ import java.io.Serializable;
 
 import com.eduardo.speculate.game.GameBoard;
 
+/**
+ * More like an Data Transfer Object. It's purpose is to refresh
+ * the clients' view, since they are going to ask the game state anyway.
+ * @author ebrusch
+ *
+ */
+
 public class GameState implements Serializable{
 
 	private static final long serialVersionUID = 2016100613421L;

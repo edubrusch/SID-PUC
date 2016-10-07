@@ -33,51 +33,51 @@ public class SpeculateGameServer implements SpeculateRemote{
 
 
 	//returns the player iD
+	@Override
 	public int getPID() throws RemoteException {
+
 		int pid;
 		pid = nextPID;
-		insertPlayer(pid);
-		++nextPID;
+		if(!insertPlayer(pid)){
+			pid = 0;
+			/*
+			 * if client receives 0, it must say it servers were full.
+			 * */
+		} else {
+			++nextPID;
+		}
 		return pid;
 	}
 
 
 
-	public int getNewGame(int playerID) throws RemoteException {
-
-		return 0;
-	}
-
-
-
 	// logic that determines whether it's the current player time based on their ID
+	//also controls the game state
+	@Override
 	public GameState getNextMove(int playerID) throws RemoteException {
 
+		if(!getGameRoom(playerID).full()) {
+			// game didn't began yet
+			return null;
+		} else {
+
+		}
+
+
 		return new GameState(getCurrentBoard(), getAdversaryRemainingMoves(playerID), isNextPlayer(playerID));
-
-
 	}
 
-
-
-
-
-	private int getAdversaryRemainingMoves(int playerID) {
-
+	@Override
+	public int getNewGame(int playerID) throws RemoteException {
+		// TODO Auto-generated method stub
 		return 0;
 	}
 
 
-	private boolean isNextPlayer(int playerID) {
-
-		return false;
-	}
 
 	public GameState makePlayerMove(int numberOfThrows) {
+
 		return null;
-
-
-
 	}
 
 
@@ -86,52 +86,82 @@ public class SpeculateGameServer implements SpeculateRemote{
 	 * Private Methods to handle game objects according to the server needs
 	 */
 
-	private synchronized GameBoard getCurrentBoard() {
-		return board;
-	}
-
-	private synchronized void insertPlayer(int playerID) {
-		/**
-		 * TODO
-		 * check if there is a game for this player
-		 * put 'em there if needed
-		 * Create new game if there's space enough
-		 */
+	private synchronized GameRoom getGameRoom(int playerID) {
 		GameRoom insertPoint = null;
 		boolean found = false;
-		for (GameRoom g:playerLobby) {
-			if(!g.full()){
-				insertPoint = g;
+		for(int i = 0; i< playerLobby.size(); i++){
+			if(playerLobby.get(i) == null){
+				insertPoint = new GameRoom();
+				playerLobby.add(insertPoint);
 				found = true;
 				break;
 			}
-			if(g==null){
-				insertPoint = new GameRoom(new Player(0));
+			if(!playerLobby.get(i).full()){
+				insertPoint = playerLobby.get(i);
+				found = true;
+				break;
 			}
 		}
 
-		if(!found){
-			;
-
+		if(found){
+			insertPoint.addPlayer(new Player(playerID));
 		}
-		insertPoint.addPlayer(new Player(playerID));
 
+
+		return null;
+	}
+
+
+	private synchronized GameBoard getCurrentBoard() {
+
+		return board;
+	}
+
+	private synchronized int getAdversaryRemainingMoves(int playerID) {
+
+		return 0;
+	}
+
+
+	private synchronized boolean isNextPlayer(int playerID) {
+
+		return false;
+	}
+
+	private synchronized boolean insertPlayer(int playerID) {
+
+		GameRoom insertPoint = null;
+		boolean found = false;
+		for(int i = 0; i< playerLobby.size(); i++){
+			if(playerLobby.get(i) == null){
+				insertPoint = new GameRoom();
+				playerLobby.add(insertPoint);
+				found = true;
+				break;
+			}
+			if(!playerLobby.get(i).full()){
+				insertPoint = playerLobby.get(i);
+				found = true;
+				break;
+			}
+		}
+
+		if(found){
+			insertPoint.addPlayer(new Player(playerID));
+		}
+
+		return found;
 	}
 
 
 
 	private synchronized void alterPlayerRemoveBall(int playerID) {
 
+
 	}
 
 
-
-
-
-
-
-
-
+	//http://stackoverflow.com/questions/33476910/eclipse-mars-consistently-fails-resolving-imports-after-saving-but-cleaning-pro
 
 
 }

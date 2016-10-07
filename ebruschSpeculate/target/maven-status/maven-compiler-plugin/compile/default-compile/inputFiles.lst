@@ -1,10 +1,12 @@
-C:\Users\Eduardo\Documents\SID-PUC\ebruschSpeculate\src\main\java\com\eduardo\speculate\client\main\SpeculateGameClient.java
-C:\Users\Eduardo\Documents\SID-PUC\ebruschSpeculate\src\main\java\com\eduardo\speculate\server\SpeculateGameServer.java
-C:\Users\Eduardo\Documents\SID-PUC\ebruschSpeculate\src\main\java\com\eduardo\speculate\commons\Constants.java
-C:\Users\Eduardo\Documents\SID-PUC\ebruschSpeculate\src\main\java\com\eduardo\speculate\commons\Strings.java
-C:\Users\Eduardo\Documents\SID-PUC\ebruschSpeculate\src\main\java\com\eduardo\speculate\game\GameBoard.java
-C:\Users\Eduardo\Documents\SID-PUC\ebruschSpeculate\src\main\java\com\eduardo\speculate\game\SixFaceDice.java
-C:\Users\Eduardo\Documents\SID-PUC\ebruschSpeculate\src\main\java\com\eduardo\speculate\server\SpeculateRemote.java
-C:\Users\Eduardo\Documents\SID-PUC\ebruschSpeculate\src\main\java\com\eduardo\speculate\App.java
-C:\Users\Eduardo\Documents\SID-PUC\ebruschSpeculate\src\main\java\com\eduardo\speculate\server\Player.java
-C:\Users\Eduardo\Documents\SID-PUC\ebruschSpeculate\src\main\java\com\eduardo\speculate\server\ServerProperties.java
+D:\me\PUCRS\sistemas distribuidos\git\ebruschSpeculate\src\main\java\com\eduardo\speculate\client\main\SpeculateGameClient.java
+D:\me\PUCRS\sistemas distribuidos\git\ebruschSpeculate\src\main\java\com\eduardo\speculate\server\SpeculateRemote.java
+D:\me\PUCRS\sistemas distribuidos\git\ebruschSpeculate\src\main\java\com\eduardo\speculate\commons\Constants.java
+D:\me\PUCRS\sistemas distribuidos\git\ebruschSpeculate\src\main\java\com\eduardo\speculate\server\GameState.java
+D:\me\PUCRS\sistemas distribuidos\git\ebruschSpeculate\src\main\java\com\eduardo\speculate\game\SixFaceDice.java
+D:\me\PUCRS\sistemas distribuidos\git\ebruschSpeculate\src\main\java\com\eduardo\speculate\game\Player.java
+D:\me\PUCRS\sistemas distribuidos\git\ebruschSpeculate\src\main\java\com\eduardo\speculate\commons\Strings.java
+D:\me\PUCRS\sistemas distribuidos\git\ebruschSpeculate\src\main\java\com\eduardo\speculate\game\GameBoard.java
+D:\me\PUCRS\sistemas distribuidos\git\ebruschSpeculate\src\main\java\com\eduardo\speculate\App.java
+D:\me\PUCRS\sistemas distribuidos\git\ebruschSpeculate\src\main\java\com\eduardo\speculate\server\ServerProperties.java
+D:\me\PUCRS\sistemas distribuidos\git\ebruschSpeculate\src\main\java\com\eduardo\speculate\server\GameRoom.java
+D:\me\PUCRS\sistemas distribuidos\git\ebruschSpeculate\src\main\java\com\eduardo\speculate\server\SpeculateGameServer.java

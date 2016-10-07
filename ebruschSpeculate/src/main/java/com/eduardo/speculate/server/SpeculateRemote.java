@@ -9,6 +9,6 @@ public interface SpeculateRemote extends Remote{
 
 	public int getNewGame(int playerID) throws RemoteException;
 
-	public Object getNextMove(int playerID)  throws RemoteException;
+	public GameState getNextMove(int playerID)  throws RemoteException;
 
 }
