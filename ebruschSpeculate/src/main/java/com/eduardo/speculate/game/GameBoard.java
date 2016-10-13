@@ -21,7 +21,7 @@ public class GameBoard {
 
 	}
 
-	public boolean isOne() {
+	public boolean oneHasBall() {
 		return one;
 	}
 
@@ -31,7 +31,7 @@ public class GameBoard {
 	}
 
 
-	public boolean isTwo() {
+	public boolean twoHasBall() {
 		return two;
 	}
 
@@ -41,7 +41,7 @@ public class GameBoard {
 	}
 
 
-	public boolean isThree() {
+	public boolean threeHasBall() {
 		return three;
 	}
 
@@ -51,7 +51,7 @@ public class GameBoard {
 	}
 
 
-	public boolean isFour() {
+	public boolean fourHasBall() {
 		return four;
 	}
 
@@ -61,7 +61,7 @@ public class GameBoard {
 	}
 
 
-	public boolean isFive() {
+	public boolean fiveHasBall() {
 		return five;
 	}
 
@@ -71,7 +71,7 @@ public class GameBoard {
 	}
 
 
-	public int getSix() {
+	public int getBallsInSix() {
 		return six;
 	}
 
