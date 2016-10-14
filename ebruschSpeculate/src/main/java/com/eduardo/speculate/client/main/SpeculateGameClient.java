@@ -1,26 +1,48 @@
 package com.eduardo.speculate.client.main;
 
-import java.net.MalformedURLException;
 import java.rmi.Naming;
-import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 
+import com.eduardo.speculate.commons.Strings;
 import com.eduardo.speculate.server.SpeculateRemote;
+
 
 public class SpeculateGameClient {
 
-	public void begin() {
+	private int idClient = 0;
+	private SpeculateRemote server;
+
+	public SpeculateGameClient(int playerID) {
+
 		try {
-			SpeculateRemote spr = (SpeculateRemote)Naming.lookup("//localhost/PID");
-			System.out.println("PID="+spr.getPID());
-		} catch (MalformedURLException e) {
-			e.printStackTrace();
-		} catch (RemoteException e) {
-			e.printStackTrace();
-		} catch (NotBoundException e) {
-			e.printStackTrace();
+			server = (SpeculateRemote)Naming.lookup("//localhost/PID");
+			idClient = server.getPID();
+			beginClient();
+
+		}  catch (Exception e) {
+
+			throw new RuntimeException(Strings.GENERAL_NETWORK_ERROR.get(), e);
 		}
+
+
+	}
+
+	private void beginClient() throws RemoteException {
+
+		server.getNextMove(idClient);
+
 
 	}
 
 }
+
+
+
+/**
+ * public int getPID() throws RemoteException;
+
+	public GameState getNextMove(int playerID)  throws RemoteException;
+
+	public GameState makePlayerMove(int playerID , int numberOfThrows) throws RemoteException;
+ *
+*/

@@ -2,6 +2,7 @@ package com.eduardo.speculate;
 
 import java.net.MalformedURLException;
 import java.rmi.Naming;
+import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 
@@ -47,11 +48,13 @@ public class App {
 				}else {
 
 					if (args[1].equals("client")) {
+						client = new SpeculateGameClient(0);
+
 						System.out.println(Strings.WELCOME_CLIENT.get());
-						client = new SpeculateGameClient();
-						client.begin();
+
 
 					} else {
+
 						System.out.println(Strings.PARAM_HELP.get());
 						waitFor(1000);
 						System.exit(-1);

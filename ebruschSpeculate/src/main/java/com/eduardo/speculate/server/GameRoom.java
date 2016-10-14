@@ -10,8 +10,6 @@ public class GameRoom {
 	private Player nextPlayer = null;
 	private int playerCount = 0;
 	private boolean isOngoingGame = false;
-	private int playerOneNumberOfThrows = 0;
-	private int playerTwoNumberOfThrows = 0;
 
 
 	public boolean full() {
@@ -65,12 +63,12 @@ public class GameRoom {
 		}
 
 	}
-	
+
 	public boolean isOngoingGame() {
 		return isOngoingGame;
 	}
-	
-	
+
+
 	public void markGameStart() {
 		isOngoingGame = true;
 	}
@@ -80,27 +78,27 @@ public class GameRoom {
 			return true;
 		return false;
 	}
-	
-	public void updateNumberOfThrowsPlus(int player, int number) {
-		if(playerOne.getPlayerID() == player) {
-			playerOneNumberOfThrows = number; 
+
+	public Player getAdversary(int playerID) {
+
+		if (playerOne.getPlayerID() == playerID) {
+
+			return playerTwo;
+		} else {
+			if (playerTwo.getPlayerID() == playerID) {
+
+				return playerOne;
+			} else {
+
+				return null;
+			}
+
 		}
-		playerTwoNumberOfThrows = number;
-	}
-	
-	
-	public void updateNumberOfThrowsMinus(int player) {
-		Player p = getPlayerById(player);
-		p.reduceBallcount();
+
 	}
 
-	private Player getPlayerById(int playerID) {
-		if(playerOne.getPlayerID() == playerID) {
-			return playerOne; 
-		}
-		return playerTwo;
+	public void nextPlayer(int player) {
+		nextPlayer = getPlayer(player);
 	}
-
-	
 
 }

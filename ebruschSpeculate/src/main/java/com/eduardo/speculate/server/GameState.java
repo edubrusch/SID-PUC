@@ -17,6 +17,7 @@ public class GameState implements Serializable{
 
 	private GameBoard currentBoard;
 	private boolean myTime;
+	private boolean winner;
 	private int adversaryRemainingDiceThrows;
 
 	public GameState(GameBoard b, int art, boolean isPlayerTime) {
@@ -43,6 +44,14 @@ public class GameState implements Serializable{
 	}
 	public void setAdversaryRemainingDiceThrows(int adversaryRemainingDiceThrows) {
 		this.adversaryRemainingDiceThrows = adversaryRemainingDiceThrows;
+	}
+
+	public void declareWinner() {
+		winner = true;
+	}
+
+	public boolean isWinner() {
+		return winner;
 	}
 
 

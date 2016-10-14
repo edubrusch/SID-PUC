@@ -3,8 +3,6 @@ package com.eduardo.speculate.server;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 
-import javax.management.RuntimeErrorException;
-
 import com.eduardo.speculate.commons.Strings;
 import com.eduardo.speculate.game.GameBoard;
 import com.eduardo.speculate.game.Player;
@@ -36,7 +34,9 @@ public class SpeculateGameServer implements SpeculateRemote {
 
 		int pid;
 		pid = nextPID;
-		if (!insertPlayer(pid)) {
+		boolean addPlayer = insertPlayer(pid);
+
+		if (!addPlayer) {
 			pid = 0;
 			/*
 			 * if client receives 0, it must say it servers were full.
@@ -52,122 +52,150 @@ public class SpeculateGameServer implements SpeculateRemote {
 	// also controls the game state
 	public GameState getNextMove(int playerID) throws RemoteException {
 
-		GameRoom current = getGameRoom(playerID);
-
-		if (!current.full()) {
+		if (!getGameRoom(playerID).full()) {
 			// game didn't began yet
 			return null;
 		} else {
 			// validade for game current state
-			if (!current.isOngoingGame()) {
-				if (current.isNext(playerID)) {
-					return new GameState(getCurrentBoard(),
-							getAdversaryRemainingMoves(playerID), true);
+			if (!getGameRoom(playerID).isOngoingGame()) {
+				if (getGameRoom(playerID).isNext(playerID)) {
+					return new GameState(getCurrentBoard(), getAdversaryRemainingMoves(playerID), true);
 				} else {
-					return new GameState(getCurrentBoard(),
-							getAdversaryRemainingMoves(playerID), true);
+					return new GameState(getCurrentBoard(), getAdversaryRemainingMoves(playerID), false);
 				}
 			}
 		}
 
-		return new GameState(getCurrentBoard(),
-				getAdversaryRemainingMoves(playerID), isNextPlayer(playerID));
+		return new GameState(getCurrentBoard(), getAdversaryRemainingMoves(playerID), getGameRoom(playerID).isNext(playerID));
 	}
 
-	public int getNewGame(int playerID) throws RemoteException {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	public GameState makePlayerMove(int playerID, int numberOfThrows) {
+	public GameState makePlayerMove(int playerID, int numberOfThrows) throws RemoteException {
 		SixFaceDice dice = new SixFaceDice();
-		int tmp = 0;
 
-		if (numberOfThrows > getGameRoom(playerID).getPlayer(playerID).getballCount() ||
-				numberOfThrows <= 0  ||
-				getGameRoom(playerID).getPlayer(playerID) == null)
+		if (numberOfThrows > getGameRoom(playerID).getPlayer(playerID).getballCount() || numberOfThrows <= 0  || getGameRoom(playerID).getPlayer(playerID) == null)
 			throw new RuntimeException(Strings.GENERAL_EXECUTION_ERROR.get(), new IllegalArgumentException());
 
 		for (int i = numberOfThrows; i > 0; i--) {
-			// TMP must be a 1 to 6 number, should be defined in the dice.
-			tmp = dice.rollDice();
-			switch (tmp) {
-			case 1:
-				if (getCurrentBoard().oneHasBall()) {
-					getCurrentBoard().setOne(false);
-					getGameRoom(playerID).getPlayer(playerID).increaseBallcount();
-				} else {
-					getCurrentBoard().setOne(true);
-					getGameRoom(playerID).getPlayer(playerID).decreaseBallcount();
-				}
-				break;
-			case 2:
-				if (getCurrentBoard().twoHasBall()) {
-					getCurrentBoard().setTwo(false);
-					getGameRoom(playerID).getPlayer(playerID).increaseBallcount();
-				} else {
-					getCurrentBoard().setTwo(true);
-					getGameRoom(playerID).getPlayer(playerID).decreaseBallcount();
-				}
-				break;
-			case 3:
-				if (getCurrentBoard().threeHasBall()) {
-					getCurrentBoard().setThree(false);
-					getGameRoom(playerID).getPlayer(playerID).increaseBallcount();
-				} else {
-					getCurrentBoard().setThree(true);
-					getGameRoom(playerID).getPlayer(playerID).decreaseBallcount();
-				}
-				break;
-			case 4:
-				if (getCurrentBoard().fourHasBall()) {
-					getCurrentBoard().setFour(false);
-					getGameRoom(playerID).getPlayer(playerID).increaseBallcount();
-				} else {
-					getCurrentBoard().setFour(true);
-					getGameRoom(playerID).getPlayer(playerID).decreaseBallcount();
-				}
-				break;
-			case 5:
-				if (getCurrentBoard().fiveHasBall()) {
-					getCurrentBoard().setFive(false);
-					getGameRoom(playerID).getPlayer(playerID).increaseBallcount();
-				} else {
-					getCurrentBoard().setFive(true);
-					getGameRoom(playerID).getPlayer(playerID).decreaseBallcount();
-				}
-				break;
-			case 6:
-				getCurrentBoard().addSix();
-				getGameRoom(playerID).getPlayer(playerID).decreaseBallcount();
-				break;
 
-			default:
-				break;
-			}
+			// dice roll must be a 1 to 6 number, should be defined in the dice.
+			updateGameBoardsetNumber(dice.rollDice(), playerID);
+//			waitTime(1000);
 		}
 
-		/**
-		 *
-		 * DETERMINE THE WINNER HERE
-		 *
-		 *  DETERMINE THE WINNER HERE
-		 *
-		 *  DETERMINE THE WINNER HERE
-		 *
-		 *  DETERMINE THE WINNER HERE
-		 *
-		 *  DETERMINE THE WINNER HERE
-		 *
-		 */
 
-		return null;
+
+		GameState output = new GameState(getCurrentBoard(), getAdversaryRemainingMoves(playerID), false);
+
+		updateNextPlayer(getGameRoom(playerID).getAdversary(playerID).getPlayerID());
+
+		if (getGameRoom(playerID).getPlayer(playerID).getballCount() == 0) {
+
+			output.declareWinner();
+		}
+
+		return output;
 	}
+
 
 	/**
 	 * Server utilities Private Methods to handle game objects according to the
 	 * server needs
 	 */
+
+
+//	private void waitTime(long time) {
+//		try{
+//			Thread.sleep(time);
+//
+//		} catch (InterruptedException e) {
+//			throw new RuntimeException(Strings.GENERAL_EXECUTION_ERROR.get(), e);
+//		}
+//	}
+
+	private synchronized void updateNextPlayer(int playerID) {
+
+		getGameRoom(playerID).nextPlayer(playerID);
+	}
+
+
+	private synchronized void updateGameBoardsetNumber(int i, int playerID) {
+
+		switch (i) {
+		case 1:
+			if (getCurrentBoard().oneHasBall()) {
+
+				getCurrentBoard().setOne(false);
+				increaseBallPlayer(playerID);
+			} else {
+
+				getCurrentBoard().setOne(true);
+				decreaseBallPlayer(playerID);
+			}
+			break;
+
+		case 2:
+			if (getCurrentBoard().twoHasBall()) {
+
+				getCurrentBoard().setTwo(false);
+				increaseBallPlayer(playerID);
+			} else {
+
+				getCurrentBoard().setTwo(true);
+				decreaseBallPlayer(playerID);
+			}
+			break;
+
+		case 3:
+			if (getCurrentBoard().threeHasBall()) {
+
+				getCurrentBoard().setThree(false);
+				increaseBallPlayer(playerID);
+			} else {
+
+				getCurrentBoard().setThree(true);
+				decreaseBallPlayer(playerID);
+			}
+			break;
+
+		case 4:
+			if (getCurrentBoard().fourHasBall()) {
+
+				getCurrentBoard().setFour(false);
+				increaseBallPlayer(playerID);
+			} else {
+
+				getCurrentBoard().setFour(true);
+				decreaseBallPlayer(playerID);
+			}
+			break;
+
+		case 5:
+			if (getCurrentBoard().fiveHasBall()) {
+
+				getCurrentBoard().setFive(false);
+				increaseBallPlayer(playerID);
+			} else {
+
+				getCurrentBoard().setFive(true);
+				decreaseBallPlayer(playerID);
+			}
+			break;
+
+		case 6:
+			getCurrentBoard().addSix();
+			decreaseBallPlayer(playerID);
+			break;
+		}
+	}
+
+	private synchronized void increaseBallPlayer(int playerID) {
+		getGameRoom(playerID).getPlayer(playerID).increaseBallcount();
+
+	}
+
+	private synchronized void decreaseBallPlayer(int playerID) {
+		getGameRoom(playerID).getPlayer(playerID).decreaseBallcount();
+	}
 
 	private synchronized GameRoom getGameRoom(int playerID) {
 
@@ -187,19 +215,15 @@ public class SpeculateGameServer implements SpeculateRemote {
 	}
 
 	private synchronized int getAdversaryRemainingMoves(int playerID) {
-
-		return 0;
+		return getGameRoom(playerID).getAdversary(playerID).getRemainingRolls();
 	}
 
-	private synchronized boolean isNextPlayer(int playerID) {
-
-		return false;
-	}
 
 	private synchronized boolean insertPlayer(int playerID) {
 
 		GameRoom insertPoint = null;
 		boolean found = false;
+
 		for (int i = 0; i < playerLobby.size(); i++) {
 			if (playerLobby.get(i) == null) {
 				insertPoint = new GameRoom();
@@ -219,10 +243,6 @@ public class SpeculateGameServer implements SpeculateRemote {
 		}
 
 		return found;
-	}
-
-	private synchronized void alterPlayerRemoveBall(int playerID) {
-
 	}
 
 	// http://stackoverflow.com/questions/33476910/eclipse-mars-consistently-fails-resolving-imports-after-saving-but-cleaning-pro
