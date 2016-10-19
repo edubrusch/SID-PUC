@@ -2,11 +2,11 @@ package com.eduardo.speculate;
 
 import java.net.MalformedURLException;
 import java.rmi.Naming;
-import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 
 import com.eduardo.speculate.client.main.SpeculateGameClient;
+import com.eduardo.speculate.commons.Constants;
 import com.eduardo.speculate.commons.Strings;
 import com.eduardo.speculate.server.SpeculateGameServer;
 import com.eduardo.speculate.server.SpeculateRemote;
@@ -31,7 +31,7 @@ public class App {
 						SpeculateGameServer remote = new SpeculateGameServer();
 						SpeculateRemote stub = (SpeculateRemote) UnicastRemoteObject.exportObject(remote, 0);
 						java.rmi.registry.LocateRegistry.createRegistry(1099);
-						Naming.rebind ("PID", stub);
+						Naming.rebind (Constants.SERVICE_NAME.get(), stub);
 					} catch (MalformedURLException e) {
 						System.out.println(Strings.GENERAL_NETWORK_ERROR.get());
 						e.printStackTrace();

@@ -5,7 +5,8 @@ public enum Constants {
 	SERVER_PROPERTIES("game.properties"),
 	GAME_VERSION("Speculate V. 1.0"),
 	PLAYER_ONE("Player One"),
-	PLAYER_TWO("Player Two");
+	PLAYER_TWO("Player Two"),
+	SERVICE_NAME("SPECULATE");
 
 	private final String string;
 

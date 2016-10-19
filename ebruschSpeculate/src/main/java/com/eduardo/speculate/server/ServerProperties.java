@@ -8,9 +8,9 @@ import com.eduardo.speculate.commons.Strings;
 
 public enum ServerProperties {
 
-	CONNECTION_PORT,
 	MAX_MATCH_COUNT,
-	DEFAULT_PLAYER_BALL_COUNT;
+	DEFAULT_PLAYER_BALL_COUNT,
+	SERVER_ADDRESS;
 
 	public String getString() {
         Properties server = new Properties();
