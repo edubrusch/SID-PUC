@@ -19,7 +19,7 @@ public class SpeculateGameClient {
 
 	public SpeculateGameClient(int playerID) {
 
-		String serviceFullName = bar + bar + ServerProperties.SERVER_ADDRESS.getString() + bar + Constants.SERVICE_NAME;
+		String serviceFullName = bar + bar + ServerProperties.SERVER_ADDRESS.getString() + bar + "SPECULATE";
 
 		try {
 			server = (SpeculateRemote)Naming.lookup(serviceFullName);

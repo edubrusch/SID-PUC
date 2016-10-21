@@ -24,6 +24,7 @@ public class SpeculateGameServer implements SpeculateRemote {
 
 		dice.equals(new SixFaceDice());
 		board.equals(new GameBoard());
+		
 	}
 
 	/**
@@ -51,6 +52,8 @@ public class SpeculateGameServer implements SpeculateRemote {
 	// ID
 	// also controls the game state
 	public GameState getNextMove(int playerID) throws RemoteException {
+		
+		//se a sala for null e pq o jogo nao existe
 
 		if (!getGameRoom(playerID).full()) {
 			// game didn't began yet
@@ -232,8 +235,10 @@ public class SpeculateGameServer implements SpeculateRemote {
 
 		GameRoom insertPoint = null;
 		boolean found = false;
+		
+		//TODO treat case in which player lobby is empty
 
-		for (int i = 0; i < playerLobby.size(); i++) {
+		for (int i = 0; i <= playerLobby.size(); i++) {
 			if (playerLobby.get(i) == null) {
 				insertPoint = new GameRoom();
 				playerLobby.add(insertPoint);
