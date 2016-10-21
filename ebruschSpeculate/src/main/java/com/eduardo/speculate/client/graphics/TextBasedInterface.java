@@ -53,10 +53,16 @@ public class TextBasedInterface implements SpeculateInterface {
 				replace("%b3%", three).
 				replace("%b4%", four).
 				replace("%b5%", five).
-				replace("%b6%", six);
+				replace("%b6%", six).
+				replace("%ya%", convertIS(s.getPlayerRemainingBalls())).
+				replace("%op%", convertIS(s.getAdversaryRemainingBalls()));
 
 		System.out.println(image);
 
+	}
+
+	private String convertIS(int number) {
+		return Integer.toString(number);
 	}
 
 }

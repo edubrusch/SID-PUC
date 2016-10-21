@@ -59,14 +59,14 @@ public class SpeculateGameServer implements SpeculateRemote {
 			// validade for game current state
 			if (!getGameRoom(playerID).isOngoingGame()) {
 				if (getGameRoom(playerID).isNext(playerID)) {
-					return new GameState(getCurrentBoard(), getAdversaryRemainingMoves(playerID), true);
+					return new GameState(getCurrentBoard(), getAdversaryRemainingMoves(playerID), getAdversaryRemainingBalls(playerID), getPlayerRemainingBalls(playerID), true);
 				} else {
-					return new GameState(getCurrentBoard(), getAdversaryRemainingMoves(playerID), false);
+					return new GameState(getCurrentBoard(), getAdversaryRemainingMoves(playerID), getAdversaryRemainingBalls(playerID), getPlayerRemainingBalls(playerID), false);
 				}
 			}
 		}
 
-		return new GameState(getCurrentBoard(), getAdversaryRemainingMoves(playerID), getGameRoom(playerID).isNext(playerID));
+		return new GameState(getCurrentBoard(), getAdversaryRemainingMoves(playerID), getAdversaryRemainingBalls(playerID), getPlayerRemainingBalls(playerID), getGameRoom(playerID).isNext(playerID));
 	}
 
 	public GameState makePlayerMove(int playerID, int numberOfThrows) throws RemoteException {
@@ -84,7 +84,7 @@ public class SpeculateGameServer implements SpeculateRemote {
 
 
 
-		GameState output = new GameState(getCurrentBoard(), getAdversaryRemainingMoves(playerID), false);
+		GameState output = new GameState(getCurrentBoard(), getAdversaryRemainingMoves(playerID), getAdversaryRemainingBalls(playerID), getPlayerRemainingBalls(playerID), false);
 
 		updateNextPlayer(getGameRoom(playerID).getAdversary(playerID).getPlayerID());
 
@@ -217,6 +217,15 @@ public class SpeculateGameServer implements SpeculateRemote {
 	private synchronized int getAdversaryRemainingMoves(int playerID) {
 		return getGameRoom(playerID).getAdversary(playerID).getRemainingRolls();
 	}
+
+	private synchronized int getAdversaryRemainingBalls(int playerID) {
+		return getGameRoom(playerID).getAdversary(playerID).getballCount();
+	}
+
+	private synchronized int getPlayerRemainingBalls(int playerID) {
+		return getGameRoom(playerID).getPlayer(playerID).getballCount();
+	}
+
 
 
 	private synchronized boolean insertPlayer(int playerID) {
