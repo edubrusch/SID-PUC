@@ -5,7 +5,6 @@ import java.rmi.RemoteException;
 
 import com.eduardo.speculate.client.graphics.SpeculateInterface;
 import com.eduardo.speculate.client.graphics.TextBasedInterface;
-import com.eduardo.speculate.commons.Constants;
 import com.eduardo.speculate.commons.Strings;
 import com.eduardo.speculate.server.ServerProperties;
 import com.eduardo.speculate.server.SpeculateRemote;

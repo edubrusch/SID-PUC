@@ -24,7 +24,7 @@ public class SpeculateGameServer implements SpeculateRemote {
 
 		dice.equals(new SixFaceDice());
 		board.equals(new GameBoard());
-		
+
 	}
 
 	/**
@@ -52,7 +52,7 @@ public class SpeculateGameServer implements SpeculateRemote {
 	// ID
 	// also controls the game state
 	public GameState getNextMove(int playerID) throws RemoteException {
-		
+
 		//se a sala for null e pq o jogo nao existe
 
 		if (!getGameRoom(playerID).full()) {
@@ -235,21 +235,31 @@ public class SpeculateGameServer implements SpeculateRemote {
 
 		GameRoom insertPoint = null;
 		boolean found = false;
-		
-		//TODO treat case in which player lobby is empty
+
+		//TODO refactor: treat list empty, consider it's going to the size. if it went to the end of the for without finding and theres room then I add another gameroon. if it's full inser is false
 
 		for (int i = 0; i <= playerLobby.size(); i++) {
+			if(playerLobby.isEmpty()) {
+				insertPoint = new GameRoom();
+				playerLobby.add(insertPoint);
+				found = true;
+			} else {
+
+				if (!playerLobby.get(i).full()) {
+					insertPoint = playerLobby.get(i);
+					found = true;
+					break;
+				}
+
+			}
+
 			if (playerLobby.get(i) == null) {
 				insertPoint = new GameRoom();
 				playerLobby.add(insertPoint);
 				found = true;
 				break;
 			}
-			if (!playerLobby.get(i).full()) {
-				insertPoint = playerLobby.get(i);
-				found = true;
-				break;
-			}
+
 		}
 
 		if (found) {
