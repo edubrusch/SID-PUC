@@ -8,8 +8,10 @@ public class GameRoom {
 	private Player playerOne = null;
 	private Player playerTwo = null;
 	private Player nextPlayer = null;
+	private Player winner = null;
 	private int playerCount = 0;
 	private boolean isOngoingGame = false;
+
 
 
 	public boolean full() {
@@ -23,18 +25,18 @@ public class GameRoom {
 
 		if (playerOne == null) {
 			playerOne = player;
-			nextPlayer = playerOne;
 			playerCount++;
 		} else {
 			if (playerTwo == null) {
-				playerOne = player;
+				playerTwo = player;
+				nextPlayer = playerOne;
 				playerCount++;
 			} else {
 				/*
 				 * Code is not supposed to come to this point, since the user
 				 * (server) should ask whether the room is full. ir hurts object
 				 * orientation, but I think it's easier and the result will be
-				 * the same anyway. Just in case, not to be caught offguard,
+				 * the same anyway. Just in case, not to be caught off guard,
 				 * I'll put here an exception, so I know it happened somewhere
 				 * in time/space.
 				 */
@@ -97,8 +99,22 @@ public class GameRoom {
 
 	}
 
+
 	public void nextPlayer(int player) {
 		nextPlayer = getPlayer(player);
+	}
+
+
+	public void markGameEnd(int playerID) {
+
+		isOngoingGame = false;
+		if (playerOne.getPlayerID() == playerID) {
+
+			winner = playerOne;
+		} else {
+
+			winner = playerTwo;
+		}
 	}
 
 }

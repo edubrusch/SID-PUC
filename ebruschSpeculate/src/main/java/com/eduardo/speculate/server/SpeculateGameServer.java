@@ -61,12 +61,16 @@ public class SpeculateGameServer implements SpeculateRemote {
 		} else {
 			// validade for game current state
 			if (!getGameRoom(playerID).isOngoingGame()) {
-				if (getGameRoom(playerID).isNext(playerID)) {
-					return new GameState(getCurrentBoard(), getAdversaryRemainingMoves(playerID), getAdversaryRemainingBalls(playerID), getPlayerRemainingBalls(playerID), true);
-				} else {
-					return new GameState(getCurrentBoard(), getAdversaryRemainingMoves(playerID), getAdversaryRemainingBalls(playerID), getPlayerRemainingBalls(playerID), false);
-				}
+
+				getGameRoom(playerID).markGameStart();
+				getGameRoom(playerID).isNext(playerID);
 			}
+
+//			if (getGameRoom(playerID).isNext(playerID)) {
+//				return new GameState(getCurrentBoard(), getAdversaryRemainingMoves(playerID), getAdversaryRemainingBalls(playerID), getPlayerRemainingBalls(playerID), true);
+//			} else {
+//				return new GameState(getCurrentBoard(), getAdversaryRemainingMoves(playerID), getAdversaryRemainingBalls(playerID), getPlayerRemainingBalls(playerID), false);
+//			}
 		}
 
 		return new GameState(getCurrentBoard(), getAdversaryRemainingMoves(playerID), getAdversaryRemainingBalls(playerID), getPlayerRemainingBalls(playerID), getGameRoom(playerID).isNext(playerID));
@@ -94,6 +98,7 @@ public class SpeculateGameServer implements SpeculateRemote {
 		if (getGameRoom(playerID).getPlayer(playerID).getballCount() == 0) {
 
 			output.declareWinner();
+			getGameRoom(playerID).markGameEnd(playerID);
 		}
 
 		return output;
@@ -238,29 +243,31 @@ public class SpeculateGameServer implements SpeculateRemote {
 
 		//TODO refactor: treat list empty, consider it's going to the size. if it went to the end of the for without finding and theres room then I add another gameroon. if it's full inser is false
 
-		for (int i = 0; i <= playerLobby.size(); i++) {
+
 			if(playerLobby.isEmpty()) {
+
 				insertPoint = new GameRoom();
 				playerLobby.add(insertPoint);
 				found = true;
 			} else {
 
-				if (!playerLobby.get(i).full()) {
-					insertPoint = playerLobby.get(i);
-					found = true;
-					break;
+				for (int i = 0; i <= playerLobby.size(); i++) {
+
+					if (!playerLobby.get(i).full()) {
+
+						insertPoint = playerLobby.get(i);
+						found = true;
+						break;
+					}
+
+					if (playerLobby.get(i) == null) {
+						insertPoint = new GameRoom();
+						playerLobby.add(insertPoint);
+						found = true;
+						break;
+					}
 				}
-
 			}
-
-			if (playerLobby.get(i) == null) {
-				insertPoint = new GameRoom();
-				playerLobby.add(insertPoint);
-				found = true;
-				break;
-			}
-
-		}
 
 		if (found) {
 			insertPoint.addPlayer(new Player(playerID));

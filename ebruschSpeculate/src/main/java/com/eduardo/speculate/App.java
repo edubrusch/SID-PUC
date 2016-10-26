@@ -48,7 +48,7 @@ public class App {
 				}else {
 
 					if (args[1].equals("client")) {
-						client = new SpeculateGameClient(0);
+						client = new SpeculateGameClient();
 
 						System.out.println(Strings.WELCOME_CLIENT.get());
 

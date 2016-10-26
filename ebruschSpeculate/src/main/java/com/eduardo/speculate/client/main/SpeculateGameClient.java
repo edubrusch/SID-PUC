@@ -6,6 +6,7 @@ import java.rmi.RemoteException;
 import com.eduardo.speculate.client.graphics.SpeculateInterface;
 import com.eduardo.speculate.client.graphics.TextBasedInterface;
 import com.eduardo.speculate.commons.Strings;
+import com.eduardo.speculate.server.GameState;
 import com.eduardo.speculate.server.ServerProperties;
 import com.eduardo.speculate.server.SpeculateRemote;
 
@@ -16,13 +17,17 @@ public class SpeculateGameClient {
 	private SpeculateRemote server;
 	private final String bar = "/";
 
-	public SpeculateGameClient(int playerID) {
+	public SpeculateGameClient() {
 
 		String serviceFullName = bar + bar + ServerProperties.SERVER_ADDRESS.getString() + bar + "SPECULATE";
 
 		try {
 			server = (SpeculateRemote)Naming.lookup(serviceFullName);
 			idClient = server.getPID();
+			if(idClient == 0) {
+				System.out.println("Server is full at the moment. Please try again later");
+			}
+			System.out.println("INFO: pid is"+idClient);
 			beginClient();
 
 		}  catch (Exception e) {
@@ -34,10 +39,22 @@ public class SpeculateGameClient {
 	}
 
 	private void beginClient() throws RemoteException {
-
 		SpeculateInterface screen = new TextBasedInterface();
+		boolean inAGame = true;
 
-		server.getNextMove(idClient);
+		while(inAGame) {
+			GameState currentGameState = server.getNextMove(idClient);
+			if(currentGameState == null) {
+
+			}
+			screen.drawGameState(currentGameState);
+
+		}
+
+
+
+
+
 
 
 	}
