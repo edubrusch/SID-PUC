@@ -59,6 +59,7 @@ public class SpeculateGameServer implements SpeculateRemote {
 		System.out.println("DEBUG: client "+playerID+" required move.");
 		if (!getGameRoom(playerID).full()) {
 			// game didn't began yet
+			System.out.println("DEBUG: client "+playerID+" got null gameroom.");
 			return null;
 		}
 		// validade for game current state
@@ -72,6 +73,8 @@ public class SpeculateGameServer implements SpeculateRemote {
 //		System.out.println("DEBUG: server will start new game");
 		System.out.println("DEBUG: return game state");
 
+		System.out.println("DEBUG: is player "+playerID+ "time? "+getGameRoom(playerID).isNext(playerID)+".");
+		
 		return new GameState(getCurrentBoard(), getAdversaryRemainingMoves(playerID),
 				getAdversaryRemainingBalls(playerID), getPlayerRemainingBalls(playerID), getGameRoom(playerID).isNext(playerID));
 	}
@@ -138,6 +141,8 @@ public class SpeculateGameServer implements SpeculateRemote {
 
 
 	private synchronized void updateGameBoardsetNumber(int i, int playerID) {
+		
+		System.out.println("DEBUG: game board: dice result is" + i);
 
 		switch (i) {
 		case 1:

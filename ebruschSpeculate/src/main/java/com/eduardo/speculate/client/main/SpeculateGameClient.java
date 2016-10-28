@@ -2,6 +2,7 @@ package com.eduardo.speculate.client.main;
 
 import java.rmi.Naming;
 import java.rmi.RemoteException;
+import java.util.Scanner;
 
 import com.eduardo.speculate.client.graphics.SpeculateInterface;
 import com.eduardo.speculate.client.graphics.TextBasedInterface;
@@ -17,11 +18,14 @@ public class SpeculateGameClient {
 	private int idClient = 0;
 	private SpeculateRemote server;
 	private final String bar = "/";
+	private Scanner input;
 
 	public SpeculateGameClient() {
 
 		String serviceFullName = bar + bar + ServerProperties.SERVER_ADDRESS.getString() + bar + "SPECULATE";
-
+		input  = new Scanner(System.in);
+		
+		
 		try {
 
 			int opt = 1;
@@ -66,24 +70,25 @@ public class SpeculateGameClient {
 
 				if(currentGameState.isWinner()) {
 					screen.victoryScreen(currentGameState);
-					stillInTheGame = gameContinue();
+					stillInTheGame = gameGetPlayerInput();
 					inAGame = false;
 
 				} else {
 
 					if(currentGameState.isLooser()) {
 						screen.looseScreen(currentGameState);
-						stillInTheGame = gameContinue();
+						stillInTheGame = gameGetPlayerInput();
 						inAGame = false;
 
 					} else {
 
 						if(currentGameState.isMyTime()) {
 							screen.drawMakeYourMove(currentGameState);
-							int plays = gamegetPlay();
+							int plays = gameGetPlayerInput();
 							currentGameState = server.makePlayerMove(idClient, plays);
 							for(int i = plays; i > 0; i++) {
 								screen.drawImMoving(currentGameState);
+								waitTime();
 							}
 
 						} else {
@@ -103,15 +108,11 @@ public class SpeculateGameClient {
 		return stillInTheGame;
 	}
 
-	private int gamegetPlay() {
-		// TODO Auto-generated method stub
-		return 0;
+	private int gameGetPlayerInput() {
+		return input.nextInt();
 	}
 
-	private int gameContinue() {
-		// TODO ask player if he wants to continue...
-		return 0;
-	}
+	
 
 	private void waitTime() {
 		try {

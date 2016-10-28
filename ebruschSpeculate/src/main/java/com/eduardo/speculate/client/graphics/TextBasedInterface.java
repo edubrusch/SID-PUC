@@ -83,7 +83,7 @@ public class TextBasedInterface implements SpeculateInterface {
 
 
 	public void drawWaitingMenu(GameState currentGameState) {
-		System.out.println("Server is full at the moment. do you with to ty again?");
+		System.out.println("Waiting opponent to join");
 //		drawScreen(currentGameState, String phrase1, String phrase2);
 
 	}
@@ -101,7 +101,7 @@ public class TextBasedInterface implements SpeculateInterface {
 	}
 
 	public void drawWaitingOpponent(GameState currentGameState) {
-		System.out.println("waiting second player to join");
+		System.out.println("waiting other player to play");
 //		drawScreen(currentGameState, String phrase1, String phrase2);
 
 	}
