@@ -5,6 +5,7 @@ import java.rmi.RemoteException;
 
 import com.eduardo.speculate.client.graphics.SpeculateInterface;
 import com.eduardo.speculate.client.graphics.TextBasedInterface;
+import com.eduardo.speculate.commons.Constants;
 import com.eduardo.speculate.commons.Strings;
 import com.eduardo.speculate.server.GameState;
 import com.eduardo.speculate.server.ServerProperties;
@@ -22,13 +23,22 @@ public class SpeculateGameClient {
 		String serviceFullName = bar + bar + ServerProperties.SERVER_ADDRESS.getString() + bar + "SPECULATE";
 
 		try {
-			server = (SpeculateRemote)Naming.lookup(serviceFullName);
-			idClient = server.getPID();
-			if(idClient == 0) {
-				System.out.println("Server is full at the moment. Please try again later");
+			
+			int opt = 1;
+			
+			while ( opt != 0 ) {
+				server = (SpeculateRemote)Naming.lookup(serviceFullName);
+				idClient = server.getPID();
+				if(idClient == 0) {
+					System.out.println("Server is full at the moment. Please try again later");
+				}
+				System.out.println("INFO: pid is"+idClient);
+				opt = beginClient();
 			}
-			System.out.println("INFO: pid is"+idClient);
-			beginClient();
+			
+			
+			
+			
 
 		}  catch (Exception e) {
 
@@ -38,37 +48,85 @@ public class SpeculateGameClient {
 
 	}
 
-	private void beginClient() throws RemoteException {
+	private int beginClient() throws RemoteException {
 		SpeculateInterface screen = new TextBasedInterface();
 		boolean inAGame = true;
+		int stillInTheGame = 1;
 
 		while(inAGame) {
+			
 			GameState currentGameState = server.getNextMove(idClient);
-			if(currentGameState == null) {
-
+			
+			if(currentGameState == null) {				
+				screen.drawWaitingMenu(currentGameState);
+				
+			} else {
+				
+				if(currentGameState.isWinner()) {
+					screen.victoryScreen(currentGameState);
+					stillInTheGame = gameContinue();
+					inAGame = false;
+					
+				} else {
+					
+					if(currentGameState.isLooser()) {
+						screen.looseScreen(currentGameState);
+						stillInTheGame = gameContinue();
+						inAGame = false;
+						
+					} else {
+						
+						if(currentGameState.isMyTime()) {
+							screen.drawMakeYourMove(currentGameState);							
+							int plays = gamegetPlay();
+							currentGameState = server.makePlayerMove(idClient, plays);
+							for(int i = plays; i > 0; i++) {
+								screen.drawImMoving(currentGameState);
+							}
+							
+						} else {
+							screen.drawWaitingOpponent(currentGameState);
+						}
+						
+					}
+				}
 			}
-			screen.drawGameState(currentGameState);
+			
+			waitTime();
 
 		}
-
-
-
-
-
-
-
+		
+		
+		
+		return stillInTheGame;
 	}
+
+	private int gamegetPlay() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	private int gameContinue() {
+		// TODO ask player if he wants to continue...
+		return 0;
+	}
+
+	private void waitTime() {
+		try {
+			Thread.sleep(Integer.parseInt(Constants.CLIENT_WAIT_TIME.get()));
+		} catch (InterruptedException e) {			
+			throw new RuntimeException(Strings.GENERAL_EXECUTION_ERROR.get(), e);
+			
+		}
+		
+	}
+
+
+
 
 }
 
 
 
-/**
- *
- *  public int getPID() throws RemoteException;
- *
- * 	public GameState getNextMove(int playerID)  throws RemoteException;
- *
- * 	public GameState makePlayerMove(int playerID , int numberOfThrows) throws RemoteException;
- *
-*/
+
+

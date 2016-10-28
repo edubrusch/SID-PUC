@@ -3,6 +3,7 @@ package com.eduardo.speculate.server;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 
+import com.eduardo.speculate.commons.Constants;
 import com.eduardo.speculate.commons.Strings;
 import com.eduardo.speculate.game.GameBoard;
 import com.eduardo.speculate.game.Player;
@@ -47,34 +48,28 @@ public class SpeculateGameServer implements SpeculateRemote {
 		}
 		return pid;
 	}
+	
 
 	// logic that determines whether it's the current player time based on their
 	// ID
 	// also controls the game state
 	public GameState getNextMove(int playerID) throws RemoteException {
-
-		//se a sala for null e pq o jogo nao existe
+		// se a sala for null e pq o jogo nao existe
 
 		if (!getGameRoom(playerID).full()) {
 			// game didn't began yet
 			return null;
-		} else {
-			// validade for game current state
-			if (!getGameRoom(playerID).isOngoingGame()) {
-
-				getGameRoom(playerID).markGameStart();
-				getGameRoom(playerID).isNext(playerID);
-			}
-
-//			if (getGameRoom(playerID).isNext(playerID)) {
-//				return new GameState(getCurrentBoard(), getAdversaryRemainingMoves(playerID), getAdversaryRemainingBalls(playerID), getPlayerRemainingBalls(playerID), true);
-//			} else {
-//				return new GameState(getCurrentBoard(), getAdversaryRemainingMoves(playerID), getAdversaryRemainingBalls(playerID), getPlayerRemainingBalls(playerID), false);
-//			}
 		}
+		// validade for game current state
+		if (!getGameRoom(playerID).isOngoingGame()) {
 
-		return new GameState(getCurrentBoard(), getAdversaryRemainingMoves(playerID), getAdversaryRemainingBalls(playerID), getPlayerRemainingBalls(playerID), getGameRoom(playerID).isNext(playerID));
+			getGameRoom(playerID).markGameStart();			
+		}
+		
+		return new GameState(getCurrentBoard(), getAdversaryRemainingMoves(playerID),
+				getAdversaryRemainingBalls(playerID), getPlayerRemainingBalls(playerID), getGameRoom(playerID).isNext(playerID));
 	}
+	
 
 	public GameState makePlayerMove(int playerID, int numberOfThrows) throws RemoteException {
 		SixFaceDice dice = new SixFaceDice();
@@ -86,10 +81,8 @@ public class SpeculateGameServer implements SpeculateRemote {
 
 			// dice roll must be a 1 to 6 number, should be defined in the dice.
 			updateGameBoardsetNumber(dice.rollDice(), playerID);
-//			waitTime(1000);
+			waitTime(900);
 		}
-
-
 
 		GameState output = new GameState(getCurrentBoard(), getAdversaryRemainingMoves(playerID), getAdversaryRemainingBalls(playerID), getPlayerRemainingBalls(playerID), false);
 
@@ -104,6 +97,15 @@ public class SpeculateGameServer implements SpeculateRemote {
 		return output;
 	}
 
+
+	private void waitTime(int i) {
+		try {
+			Thread.sleep(i);
+			
+		} catch (InterruptedException e) {			
+			throw new RuntimeException(Strings.GENERAL_EXECUTION_ERROR.get(), e);			
+		}		
+	}
 
 	/**
 	 * Server utilities Private Methods to handle game objects according to the

@@ -6,7 +6,8 @@ public enum Constants {
 	GAME_VERSION("Speculate V. 1.0"),
 	PLAYER_ONE("Player One"),
 	PLAYER_TWO("Player Two"),
-	SERVICE_NAME("SPECULATE");
+	SERVICE_NAME("SPECULATE"),
+	CLIENT_WAIT_TIME("1000");
 
 	private final String string;
 

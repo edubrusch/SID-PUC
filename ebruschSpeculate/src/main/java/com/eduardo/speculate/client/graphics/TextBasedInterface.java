@@ -6,7 +6,7 @@ import com.eduardo.speculate.server.GameState;
 public class TextBasedInterface implements SpeculateInterface {
 
 	private final String filledHole = "O";
-	private final String emptyHole = "_";
+	private final String emptyHole = "_";	
 	private String board =
 			" _____________________________________________________________________\n"+
 			"|                                                                     |\n"+
@@ -18,10 +18,19 @@ public class TextBasedInterface implements SpeculateInterface {
 			"|        Balls left                             |      %b6%          | |\n"+
 			"|        You:  %ya%                                  |                   | |\n"+
 			"|        Opponent: %op%                         |___________________| |\n"+
+			"|_____________________________________________________________________|\n"+
+			" _____________________________________________________________________\n"+
+			"|                                                                     |\n"+
+			"| %opt1% |\n"+
+			"| %opt2% |\n"+
+			"| %opt3% |\n"+
 			"|_____________________________________________________________________|\n"
        ;
 
-	public void drawGameState(GameState s) {
+	
+	
+	
+	private void drawScreen(GameState s, String phrase1, String phrase2) {		
 		GameBoard b = s.getCurrentBoard();
 		String one = emptyHole,
 				two = emptyHole,
@@ -59,10 +68,53 @@ public class TextBasedInterface implements SpeculateInterface {
 
 		System.out.println(image);
 
-	}
+	}	
 
 	private String convertIS(int number) {
 		return Integer.toString(number);
+	}
+	
+	
+	public void drawWaitingMenu() {
+//		drawScreen(currentGameState, String phrase1, String phrase2);
+	}
+
+	
+
+	public void drawWaitingMenu(GameState currentGameState) {
+		// TODO Auto-generated method stub
+//		drawScreen(currentGameState, String phrase1, String phrase2);
+		
+	}
+
+	public void victoryScreen(GameState currentGameState) {
+		// TODO Auto-generated method stub
+//		drawScreen(currentGameState, String phrase1, String phrase2);
+		
+	}
+
+	public void looseScreen(GameState currentGameState) {
+		// TODO Auto-generated method stub
+//		drawScreen(currentGameState, String phrase1, String phrase2);
+		
+	}
+
+	public void drawWaitingOpponent(GameState currentGameState) {
+		// TODO Auto-generated method stub
+//		drawScreen(currentGameState, String phrase1, String phrase2);
+		
+	}
+
+	public void drawMakeYourMove(GameState currentGameState) {
+		// TODO Auto-generated method stub
+//		drawScreen(currentGameState, String phrase1, String phrase2);
+		
+	}
+
+	public void drawImMoving(GameState currentGameState) {
+		// TODO Auto-generated method stub
+//		drawScreen(currentGameState, String phrase1, String phrase2);
+		
 	}
 
 }

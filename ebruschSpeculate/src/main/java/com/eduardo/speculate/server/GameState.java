@@ -18,9 +18,11 @@ public class GameState implements Serializable{
 	private GameBoard currentBoard;
 	private boolean myTime;
 	private boolean winner;
+	private boolean looser;
 	private int adversaryRemainingDiceThrows;
 	private int adversaryRemainingBalls;
 	private int playerRemainingBalls;
+	
 
 	/**
 	 *
@@ -62,9 +64,17 @@ public class GameState implements Serializable{
 	public void declareWinner() {
 		winner = true;
 	}
+	
+	public void declareLooser() {
+		looser = true;
+	}
 
 	public boolean isWinner() {
 		return winner;
+	}
+	
+	public boolean isLooser() {
+		return looser;
 	}
 
 	public int getAdversaryRemainingBalls() {

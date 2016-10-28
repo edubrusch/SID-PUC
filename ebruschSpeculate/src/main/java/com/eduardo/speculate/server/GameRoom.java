@@ -103,6 +103,16 @@ public class GameRoom {
 	public void nextPlayer(int player) {
 		nextPlayer = getPlayer(player);
 	}
+	
+	
+	public boolean isWinner(int somePlayer) {
+		boolean winner = false;
+		
+		if(this.winner.getPlayerID() == somePlayer)
+			winner = true;
+		
+		return winner;
+	}
 
 
 	public void markGameEnd(int playerID) {
