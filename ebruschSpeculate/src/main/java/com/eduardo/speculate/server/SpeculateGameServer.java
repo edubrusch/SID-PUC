@@ -3,7 +3,6 @@ package com.eduardo.speculate.server;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 
-import com.eduardo.speculate.commons.Constants;
 import com.eduardo.speculate.commons.Strings;
 import com.eduardo.speculate.game.GameBoard;
 import com.eduardo.speculate.game.Player;
@@ -46,9 +45,10 @@ public class SpeculateGameServer implements SpeculateRemote {
 		} else {
 			++nextPID;
 		}
+		System.out.println("DEBUG: received new pid order. delivered => "+pid+".");
 		return pid;
 	}
-	
+
 
 	// logic that determines whether it's the current player time based on their
 	// ID
@@ -56,6 +56,7 @@ public class SpeculateGameServer implements SpeculateRemote {
 	public GameState getNextMove(int playerID) throws RemoteException {
 		// se a sala for null e pq o jogo nao existe
 
+		System.out.println("DEBUG: client "+playerID+" required move.");
 		if (!getGameRoom(playerID).full()) {
 			// game didn't began yet
 			return null;
@@ -63,15 +64,23 @@ public class SpeculateGameServer implements SpeculateRemote {
 		// validade for game current state
 		if (!getGameRoom(playerID).isOngoingGame()) {
 
-			getGameRoom(playerID).markGameStart();			
+			System.out.println("DEBUG: server will start new game");
+
+			getGameRoom(playerID).markGameStart();
 		}
-		
+
+//		System.out.println("DEBUG: server will start new game");
+		System.out.println("DEBUG: return game state");
+
 		return new GameState(getCurrentBoard(), getAdversaryRemainingMoves(playerID),
 				getAdversaryRemainingBalls(playerID), getPlayerRemainingBalls(playerID), getGameRoom(playerID).isNext(playerID));
 	}
-	
+
 
 	public GameState makePlayerMove(int playerID, int numberOfThrows) throws RemoteException {
+
+		System.out.println("DEBUG: player"+playerID+" asked to make a move.");
+
 		SixFaceDice dice = new SixFaceDice();
 
 		if (numberOfThrows > getGameRoom(playerID).getPlayer(playerID).getballCount() || numberOfThrows <= 0  || getGameRoom(playerID).getPlayer(playerID) == null)
@@ -101,10 +110,10 @@ public class SpeculateGameServer implements SpeculateRemote {
 	private void waitTime(int i) {
 		try {
 			Thread.sleep(i);
-			
-		} catch (InterruptedException e) {			
-			throw new RuntimeException(Strings.GENERAL_EXECUTION_ERROR.get(), e);			
-		}		
+
+		} catch (InterruptedException e) {
+			throw new RuntimeException(Strings.GENERAL_EXECUTION_ERROR.get(), e);
+		}
 	}
 
 	/**

@@ -1,7 +1,13 @@
 package com.eduardo.speculate.game;
 
-public class GameBoard {
+import java.io.Serializable;
 
+public class GameBoard implements Serializable{
+
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = 2L;
 	private boolean one;
 	private boolean two;
 	private boolean three;

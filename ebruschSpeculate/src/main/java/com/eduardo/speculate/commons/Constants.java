@@ -7,7 +7,7 @@ public enum Constants {
 	PLAYER_ONE("Player One"),
 	PLAYER_TWO("Player Two"),
 	SERVICE_NAME("SPECULATE"),
-	CLIENT_WAIT_TIME("1000");
+	CLIENT_WAIT_TIME("5000");
 
 	private final String string;
 

@@ -23,22 +23,22 @@ public class SpeculateGameClient {
 		String serviceFullName = bar + bar + ServerProperties.SERVER_ADDRESS.getString() + bar + "SPECULATE";
 
 		try {
-			
+
 			int opt = 1;
-			
+
 			while ( opt != 0 ) {
 				server = (SpeculateRemote)Naming.lookup(serviceFullName);
 				idClient = server.getPID();
 				if(idClient == 0) {
 					System.out.println("Server is full at the moment. Please try again later");
 				}
-				System.out.println("INFO: pid is"+idClient);
+				System.out.println("INFO: pid is "+idClient);
 				opt = beginClient();
 			}
-			
-			
-			
-			
+
+
+
+
 
 		}  catch (Exception e) {
 
@@ -54,50 +54,52 @@ public class SpeculateGameClient {
 		int stillInTheGame = 1;
 
 		while(inAGame) {
-			
+
+			System.out.println("DEBUG: get current state");
+
 			GameState currentGameState = server.getNextMove(idClient);
-			
-			if(currentGameState == null) {				
+
+			if(currentGameState == null) {
 				screen.drawWaitingMenu(currentGameState);
-				
+
 			} else {
-				
+
 				if(currentGameState.isWinner()) {
 					screen.victoryScreen(currentGameState);
 					stillInTheGame = gameContinue();
 					inAGame = false;
-					
+
 				} else {
-					
+
 					if(currentGameState.isLooser()) {
 						screen.looseScreen(currentGameState);
 						stillInTheGame = gameContinue();
 						inAGame = false;
-						
+
 					} else {
-						
+
 						if(currentGameState.isMyTime()) {
-							screen.drawMakeYourMove(currentGameState);							
+							screen.drawMakeYourMove(currentGameState);
 							int plays = gamegetPlay();
 							currentGameState = server.makePlayerMove(idClient, plays);
 							for(int i = plays; i > 0; i++) {
 								screen.drawImMoving(currentGameState);
 							}
-							
+
 						} else {
 							screen.drawWaitingOpponent(currentGameState);
 						}
-						
+
 					}
 				}
 			}
-			
+
 			waitTime();
 
 		}
-		
-		
-		
+
+
+
 		return stillInTheGame;
 	}
 
@@ -114,11 +116,11 @@ public class SpeculateGameClient {
 	private void waitTime() {
 		try {
 			Thread.sleep(Integer.parseInt(Constants.CLIENT_WAIT_TIME.get()));
-		} catch (InterruptedException e) {			
+		} catch (InterruptedException e) {
 			throw new RuntimeException(Strings.GENERAL_EXECUTION_ERROR.get(), e);
-			
+
 		}
-		
+
 	}
 
 
