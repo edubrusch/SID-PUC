@@ -30,7 +30,7 @@ public class TextBasedInterface implements SpeculateInterface {
 
 
 
-	private void drawScreen(GameState s, String phrase1, String phrase2) {
+	private void drawScreen(GameState s, String phrase1, String phrase2, String phrase3) {
 		GameBoard b = s.getCurrentBoard();
 		String one = emptyHole,
 				two = emptyHole,
@@ -38,7 +38,6 @@ public class TextBasedInterface implements SpeculateInterface {
 				four = emptyHole,
 				five = emptyHole,
 				six = null;
-
 
 		if(b.oneHasBall())
 			one = filledHole;
@@ -63,6 +62,9 @@ public class TextBasedInterface implements SpeculateInterface {
 				replace("%b4%", four).
 				replace("%b5%", five).
 				replace("%b6%", six).
+				replace("%opt1%", phrase1).
+				replace("%opt2%", phrase2).
+				replace("%opt3%", phrase3).
 				replace("%ya%", convertIS(s.getPlayerRemainingBalls())).
 				replace("%op%", convertIS(s.getAdversaryRemainingBalls()));
 
@@ -75,48 +77,39 @@ public class TextBasedInterface implements SpeculateInterface {
 	}
 
 
-//	public void drawWaitingMenu() {
-//		System.out.println("waiting second player to join");
-////		drawScreen(currentGameState, String phrase1, String phrase2);
-//	}
-
-
-
 	public void drawWaitingMenu(GameState currentGameState) {
-		System.out.println("Waiting opponent to join");
-//		drawScreen(currentGameState, String phrase1, String phrase2);
+		String phrase = "Waiting opponent to join";
+		drawScreen(new GameState(new GameBoard(), 0, 0, 0, false), phrase, "      ", "      ");
 
 	}
 
 	public void victoryScreen(GameState currentGameState) {
-		System.out.println("You won! play again?");
-//		drawScreen(currentGameState, String phrase1, String phrase2);
+		String phrase = "You won! play again?";		
+		drawScreen(currentGameState, phrase, "      ", "      ");
 
 	}
 
 	public void looseScreen(GameState currentGameState) {
-		System.out.println("you loose. Try again?");
-//		drawScreen(currentGameState, String phrase1, String phrase2);
+		String phrase = "you loose. Try again?";		
+		drawScreen(currentGameState, phrase, "      ", "      ");
 
 	}
 
 	public void drawWaitingOpponent(GameState currentGameState) {
-		System.out.println("waiting other player to play");
-//		drawScreen(currentGameState, String phrase1, String phrase2);
+		String phrase = "waiting other player to play";		
+		drawScreen(currentGameState, phrase, "      ", "      ");
 
 	}
 
 	public void drawMakeYourMove(GameState currentGameState) {
-		System.out.println("how many rolls will your dice roll?");
-		// TODO Auto-generated method stub
-//		drawScreen(currentGameState, String phrase1, String phrase2);
+		String phrase = "how many rolls will your dice roll?";
+		drawScreen(currentGameState, phrase, "      ", "      ");
 
 	}
 
 	public void drawImMoving(GameState currentGameState) {
-		System.out.println("throwing dice, wait");
-		// TODO Auto-generated method stub
-//		drawScreen(currentGameState, String phrase1, String phrase2);
+		String phrase = "throwing dice, wait";
+		drawScreen(currentGameState, phrase, "      ", "      ");
 
 	}
 

@@ -36,15 +36,21 @@ public class SpeculateGameServer implements SpeculateRemote {
 		int pid;
 		pid = nextPID;
 		boolean addPlayer = insertPlayer(pid);
+		
 
+		
+//		if client receives 0, it must say it servers were full.		 
 		if (!addPlayer) {
+			
 			pid = 0;
-			/*
-			 * if client receives 0, it must say it servers were full.
-			 */
+			
 		} else {
-			++nextPID;
+			
+			++nextPID;		
+			
 		}
+		
+		
 		System.out.println("DEBUG: received new pid order. delivered => "+pid+".");
 		return pid;
 	}
@@ -54,14 +60,20 @@ public class SpeculateGameServer implements SpeculateRemote {
 	// ID
 	// also controls the game state
 	public GameState getNextMove(int playerID) throws RemoteException {
-		// se a sala for null e pq o jogo nao existe
-
+		
+		
 		System.out.println("DEBUG: client "+playerID+" required move.");
-		if (!getGameRoom(playerID).full()) {
-			// game didn't began yet
+		
+		
+		// if the room is null it's because the game doesn't exists 
+		if (!getGameRoom(playerID).full()) {			
+			
 			System.out.println("DEBUG: client "+playerID+" got null gameroom.");
 			return null;
+			
 		}
+		
+		
 		// validade for game current state
 		if (!getGameRoom(playerID).isOngoingGame()) {
 
@@ -70,10 +82,9 @@ public class SpeculateGameServer implements SpeculateRemote {
 			getGameRoom(playerID).markGameStart();
 		}
 
-//		System.out.println("DEBUG: server will start new game");
 		System.out.println("DEBUG: return game state");
-
 		System.out.println("DEBUG: is player "+playerID+ "time? "+getGameRoom(playerID).isNext(playerID)+".");
+		
 		
 		return new GameState(getCurrentBoard(), getAdversaryRemainingMoves(playerID),
 				getAdversaryRemainingBalls(playerID), getPlayerRemainingBalls(playerID), getGameRoom(playerID).isNext(playerID));
@@ -81,20 +92,22 @@ public class SpeculateGameServer implements SpeculateRemote {
 
 
 	public GameState makePlayerMove(int playerID, int numberOfThrows) throws RemoteException {
+		
 
-		System.out.println("DEBUG: player"+playerID+" asked to make a move.");
-
+		System.out.println("DEBUG: player "+playerID+" asked to make a move.");
 		SixFaceDice dice = new SixFaceDice();
-
+		
+		
 		if (numberOfThrows > getGameRoom(playerID).getPlayer(playerID).getballCount() || numberOfThrows <= 0  || getGameRoom(playerID).getPlayer(playerID) == null)
 			throw new RuntimeException(Strings.GENERAL_EXECUTION_ERROR.get(), new IllegalArgumentException());
 
-		for (int i = numberOfThrows; i > 0; i--) {
-
-			// dice roll must be a 1 to 6 number, should be defined in the dice.
+		
+		// dice roll must be a 1 to 6 number, should be defined in the dice.
+		for (int i = numberOfThrows; i > 0; i--) {			
 			updateGameBoardsetNumber(dice.rollDice(), playerID);
 			waitTime(900);
 		}
+		
 
 		GameState output = new GameState(getCurrentBoard(), getAdversaryRemainingMoves(playerID), getAdversaryRemainingBalls(playerID), getPlayerRemainingBalls(playerID), false);
 
@@ -123,16 +136,6 @@ public class SpeculateGameServer implements SpeculateRemote {
 	 * Server utilities Private Methods to handle game objects according to the
 	 * server needs
 	 */
-
-
-//	private void waitTime(long time) {
-//		try{
-//			Thread.sleep(time);
-//
-//		} catch (InterruptedException e) {
-//			throw new RuntimeException(Strings.GENERAL_EXECUTION_ERROR.get(), e);
-//		}
-//	}
 
 	private synchronized void updateNextPlayer(int playerID) {
 

@@ -85,11 +85,8 @@ public class SpeculateGameClient {
 						if(currentGameState.isMyTime()) {
 							screen.drawMakeYourMove(currentGameState);
 							int plays = gameGetPlayerInput();
-							currentGameState = server.makePlayerMove(idClient, plays);
-							for(int i = plays; i > 0; i++) {
-								screen.drawImMoving(currentGameState);
-								waitTime();
-							}
+							screen.drawImMoving(currentGameState);
+							currentGameState = server.makePlayerMove(idClient, plays);							
 
 						} else {
 							screen.drawWaitingOpponent(currentGameState);
