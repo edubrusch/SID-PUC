@@ -5,6 +5,7 @@ import com.eduardo.speculate.server.GameState;
 
 public class TextBasedInterface implements SpeculateInterface {
 
+	private final int MAX_OPTION_SIZE = 50;
 	private final String filledHole = "O";
 	private final String emptyHole = "_";
 	private String board =
@@ -56,17 +57,22 @@ public class TextBasedInterface implements SpeculateInterface {
 
 		six = Integer.toString(b.getBallsInSix());
 
-		String image = board.replace("%b1%", one).
-				replace("%b2%", two).
-				replace("%b3%", three).
-				replace("%b4%", four).
-				replace("%b5%", five).
-				replace("%b6%", six).
-				replace("%opt1%", phrase1).
-				replace("%opt2%", phrase2).
-				replace("%opt3%", phrase3).
-				replace("%ya%", convertIS(s.getPlayerRemainingBalls())).
-				replace("%op%", convertIS(s.getAdversaryRemainingBalls()));
+//		String image = board.replace("%b1%", one).
+//				replace("%b2%", two).
+//				replace("%b3%", three).
+//				replace("%b4%", four).
+//				replace("%b5%", five).
+//				replace("%b6%", six).
+//				replace("%opt1%", align(phrase1)).
+//				replace("%opt2%", align(phrase2)).
+//				replace("%opt3%", align(phrase3)).
+//				replace("%ya%", convertIS(s.getPlayerRemainingBalls())).
+//				replace("%op%", convertIS(s.getAdversaryRemainingBalls()));
+
+		String image = "one: "+one+"one: "+two+"one: "+three+"one: "+four+"one: "+five+"one: "+six+
+				"player balls:"+convertIS(s.getPlayerRemainingBalls()) + "\n" +
+				"opponent balls"+convertIS(s.getAdversaryRemainingBalls()) + "\n" +
+				"opst: \n"+ align(phrase1) + "\n" + align(phrase2) + "\n" + align(phrase3);
 
 		System.out.println(image);
 
@@ -74,6 +80,17 @@ public class TextBasedInterface implements SpeculateInterface {
 
 	private String convertIS(int number) {
 		return Integer.toString(number);
+	}
+
+	private String align(String phrase) {
+		int remaining  = MAX_OPTION_SIZE - phrase.length();
+		StringBuilder sb = new StringBuilder(phrase);
+		for (int i = 0; i < remaining; i++ ) {
+			sb.append(" ");
+		}
+
+		return phrase;
+
 	}
 
 
@@ -84,19 +101,19 @@ public class TextBasedInterface implements SpeculateInterface {
 	}
 
 	public void victoryScreen(GameState currentGameState) {
-		String phrase = "You won! play again?";		
+		String phrase = "You won! play again?";
 		drawScreen(currentGameState, phrase, "      ", "      ");
 
 	}
 
 	public void looseScreen(GameState currentGameState) {
-		String phrase = "you loose. Try again?";		
+		String phrase = "you loose. Try again?";
 		drawScreen(currentGameState, phrase, "      ", "      ");
 
 	}
 
 	public void drawWaitingOpponent(GameState currentGameState) {
-		String phrase = "waiting other player to play";		
+		String phrase = "waiting other player to play";
 		drawScreen(currentGameState, phrase, "      ", "      ");
 
 	}
