@@ -36,21 +36,21 @@ public class SpeculateGameServer implements SpeculateRemote {
 		int pid;
 		pid = nextPID;
 		boolean addPlayer = insertPlayer(pid);
-		
 
-		
-//		if client receives 0, it must say it servers were full.		 
+
+
+//		if client receives 0, it must say it servers were full.
 		if (!addPlayer) {
-			
+
 			pid = 0;
-			
+
 		} else {
-			
-			++nextPID;		
-			
+
+			++nextPID;
+
 		}
-		
-		
+
+
 		System.out.println("DEBUG: received new pid order. delivered => "+pid+".");
 		return pid;
 	}
@@ -60,20 +60,20 @@ public class SpeculateGameServer implements SpeculateRemote {
 	// ID
 	// also controls the game state
 	public GameState getNextMove(int playerID) throws RemoteException {
-		
-		
+
+
 		System.out.println("DEBUG: client "+playerID+" required move.");
-		
-		
-		// if the room is null it's because the game doesn't exists 
-		if (!getGameRoom(playerID).full()) {			
-			
+
+
+		// if the room is null it's because the game doesn't exists
+		if (!getGameRoom(playerID).full()) {
+
 			System.out.println("DEBUG: client "+playerID+" got null gameroom.");
 			return null;
-			
+
 		}
-		
-		
+
+
 		// validade for game current state
 		if (!getGameRoom(playerID).isOngoingGame()) {
 
@@ -84,30 +84,31 @@ public class SpeculateGameServer implements SpeculateRemote {
 
 		System.out.println("DEBUG: return game state");
 		System.out.println("DEBUG: is player "+playerID+ "time? "+getGameRoom(playerID).isNext(playerID)+".");
-		
-		
+
+
 		return new GameState(getCurrentBoard(), getAdversaryRemainingMoves(playerID),
 				getAdversaryRemainingBalls(playerID), getPlayerRemainingBalls(playerID), getGameRoom(playerID).isNext(playerID));
 	}
 
 
 	public GameState makePlayerMove(int playerID, int numberOfThrows) throws RemoteException {
-		
+
 
 		System.out.println("DEBUG: player "+playerID+" asked to make a move.");
 		SixFaceDice dice = new SixFaceDice();
-		
-		
+
+
 		if (numberOfThrows > getGameRoom(playerID).getPlayer(playerID).getballCount() || numberOfThrows <= 0  || getGameRoom(playerID).getPlayer(playerID) == null)
 			throw new RuntimeException(Strings.GENERAL_EXECUTION_ERROR.get(), new IllegalArgumentException());
 
-		
+
 		// dice roll must be a 1 to 6 number, should be defined in the dice.
-		for (int i = numberOfThrows; i > 0; i--) {			
+		for (int i = numberOfThrows; i > 0; i--) {
+			System.out.println("DEBUG: throwing "+i);
 			updateGameBoardsetNumber(dice.rollDice(), playerID);
-			waitTime(900);
+			waitTime(2000);
 		}
-		
+
 
 		GameState output = new GameState(getCurrentBoard(), getAdversaryRemainingMoves(playerID), getAdversaryRemainingBalls(playerID), getPlayerRemainingBalls(playerID), false);
 
@@ -144,7 +145,7 @@ public class SpeculateGameServer implements SpeculateRemote {
 
 
 	private synchronized void updateGameBoardsetNumber(int i, int playerID) {
-		
+
 		System.out.println("DEBUG: game board: dice result is" + i);
 
 		switch (i) {

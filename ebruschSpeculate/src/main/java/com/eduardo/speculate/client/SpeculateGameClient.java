@@ -1,4 +1,4 @@
-package com.eduardo.speculate.client.main;
+package com.eduardo.speculate.client;
 
 import java.rmi.Naming;
 import java.rmi.RemoteException;

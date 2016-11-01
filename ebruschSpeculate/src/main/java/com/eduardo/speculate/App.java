@@ -5,7 +5,7 @@ import java.rmi.Naming;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 
-import com.eduardo.speculate.client.main.SpeculateGameClient;
+import com.eduardo.speculate.client.SpeculateGameClient;
 import com.eduardo.speculate.commons.Constants;
 import com.eduardo.speculate.commons.Strings;
 import com.eduardo.speculate.server.SpeculateGameServer;

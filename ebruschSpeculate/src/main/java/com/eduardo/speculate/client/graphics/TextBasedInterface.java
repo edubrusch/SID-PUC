@@ -69,9 +69,10 @@ public class TextBasedInterface implements SpeculateInterface {
 //				replace("%ya%", convertIS(s.getPlayerRemainingBalls())).
 //				replace("%op%", convertIS(s.getAdversaryRemainingBalls()));
 
-		String image = "one: "+one+"one: "+two+"one: "+three+"one: "+four+"one: "+five+"one: "+six+
-				"player balls:"+convertIS(s.getPlayerRemainingBalls()) + "\n" +
-				"opponent balls"+convertIS(s.getAdversaryRemainingBalls()) + "\n" +
+		String image = "one: "+one+" two: "+two+" three: "+three+"four: "+four+"one: "+five+"one: "+six+
+				"player balls: "+convertIS(s.getPlayerRemainingBalls()) + "\n" +
+				"opponent balls: "+convertIS(s.getAdversaryRemainingBalls()) + "\n" +
+				"opponent throws:"+ s.getAdversaryRemainingDiceThrows() + "\n" +
 				"opst: \n"+ align(phrase1) + "\n" + align(phrase2) + "\n" + align(phrase3);
 
 		System.out.println(image);
