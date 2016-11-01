@@ -73,9 +73,21 @@ public class SpeculateGameServer implements SpeculateRemote {
 
 		}
 
-
 		// validade for game current state
 		if (!getGameRoom(playerID).isOngoingGame()) {
+
+			if(getGameRoom(playerID).haveWin() ) {
+				GameState gameover = new GameState(getCurrentBoard(), getAdversaryRemainingMoves(playerID),
+						getAdversaryRemainingBalls(playerID), getPlayerRemainingBalls(playerID), getGameRoom(playerID).isNext(playerID));
+				if(getGameRoom(playerID).isWinner(playerID)) {
+					gameover.declareWinner();
+					// should not fall in here since I have already told the player he won
+				} else {
+					gameover.declareLooser();
+				}
+
+				return gameover;
+			}
 
 			System.out.println("DEBUG: server will start new game");
 
@@ -105,11 +117,14 @@ public class SpeculateGameServer implements SpeculateRemote {
 		// dice roll must be a 1 to 6 number, should be defined in the dice.
 		for (int i = numberOfThrows; i > 0; i--) {
 			System.out.println("DEBUG: throwing "+i);
-			updateGameBoardsetNumber(dice.rollDice(), playerID);
+//			updateGameBoardsetNumber(dice.rollDice(), playerID);
+//			commented part above for testing purposes only
+			decreaseBallPlayer(playerID);
+			System.out.println("player ball: "+getGameRoom(playerID).getPlayer(playerID).getballCount());
 			waitTime(2000);
 		}
 
-
+//TODO create gamestate after deciding if there was a winner. is winner return ismytime = true, so that the other player do not want to play
 		GameState output = new GameState(getCurrentBoard(), getAdversaryRemainingMoves(playerID), getAdversaryRemainingBalls(playerID), getPlayerRemainingBalls(playerID), false);
 
 		updateNextPlayer(getGameRoom(playerID).getAdversary(playerID).getPlayerID());

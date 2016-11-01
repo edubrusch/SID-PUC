@@ -20,12 +20,12 @@ public class Player {
 	}
 
 	public void decreaseBallcount() {
-		ballsCount ++;
+		ballsCount --;
 
 	}
 
 	public void increaseBallcount() {
-		ballsCount--;
+		ballsCount ++;
 	}
 
 	public int getballCount() {
