@@ -5,26 +5,29 @@ import com.eduardo.speculate.server.GameState;
 
 public class TextBasedInterface implements SpeculateInterface {
 
-	private final int MAX_OPTION_SIZE = 50;
+	private final int MAX_OPTION_SIZE = 66;
 	private final String filledHole = "O";
 	private final String emptyHole = "_";
+	private final String indiscreteClean = "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"; 
+	
+	
 	private String board =
 			" _____________________________________________________________________\n"+
 			"|                                                                     |\n"+
-			"|         [%b1%]         [%b2%]         [%b3%]         [%b4%]         [%b5%]         |\n"+
-			"|                                                         | |         |\n"+
-			"|                                                         | |         |\n"+
-			"|_________________________________________________________| |_________|\n"+
+			"|         [%b1%]      [%b2%]      [%b3%]      [%b4%]      [%b5%]             | |     |\n"+
+			"|                                                             | |     |\n"+
+			"|          1        2        3        4        5              | |     |\n"+
+			"|_____________________________________________________________| |_____|\n"+
 			"|                                               |                   | |\n"+
-			"|        Balls left                             |      %b6%          | |\n"+
-			"|        You:  %ya%                                  |                   | |\n"+
-			"|        Opponent: %op%                         |___________________| |\n"+
+			"|        Balls left                             |     %b6%             | |\n"+
+			"|        You:  %ya%                                |                   | |\n"+
+			"|        Opponent: %op%                            |___________________| |\n"+
 			"|_____________________________________________________________________|\n"+
 			" _____________________________________________________________________\n"+
 			"|                                                                     |\n"+
-			"| %opt1% |\n"+
-			"| %opt2% |\n"+
-			"| %opt3% |\n"+
+			"| %opt1%   |\n"+
+			"| %opt2%   |\n"+
+			"| %opt3%   |\n"+
 			"|_____________________________________________________________________|\n"
        ;
 
@@ -57,24 +60,19 @@ public class TextBasedInterface implements SpeculateInterface {
 
 		six = Integer.toString(b.getBallsInSix());
 
-//		String image = board.replace("%b1%", one).
-//				replace("%b2%", two).
-//				replace("%b3%", three).
-//				replace("%b4%", four).
-//				replace("%b5%", five).
-//				replace("%b6%", six).
-//				replace("%opt1%", align(phrase1)).
-//				replace("%opt2%", align(phrase2)).
-//				replace("%opt3%", align(phrase3)).
-//				replace("%ya%", convertIS(s.getPlayerRemainingBalls())).
-//				replace("%op%", convertIS(s.getAdversaryRemainingBalls()));
+		String image = board.replace("%b1%", one).
+				replace("%b2%", two).
+				replace("%b3%", three).
+				replace("%b4%", four).
+				replace("%b5%", five).
+				replace("%b6%", six).
+				replace("%opt1%", align(phrase1)).
+				replace("%opt2%", align(phrase2)).
+				replace("%opt3%", align(phrase3)).
+				replace("%ya%", convertIS(s.getPlayerRemainingBalls())).
+				replace("%op%", convertIS(s.getAdversaryRemainingBalls()));
 
-		String image = "one: ["+one+"] two: ["+two+"] three: ["+three+"] four: [" +four+"] five: "+five+" SIX: ["+six+"]"+
-				"\nplayer balls: "+convertIS(s.getPlayerRemainingBalls()) + "\n" +
-				"opponent balls: "+convertIS(s.getAdversaryRemainingBalls()) + "\n" +
-				"opponent throws:"+ s.getAdversaryRemainingDiceThrows() + "\n" +
-				"opst: \n"+ align(phrase1) + "\n" + align(phrase2) + "\n" + align(phrase3);
-
+		System.out.println(indiscreteClean);
 		System.out.println(image);
 
 	}
@@ -86,11 +84,12 @@ public class TextBasedInterface implements SpeculateInterface {
 	private String align(String phrase) {
 		int remaining  = MAX_OPTION_SIZE - phrase.length();
 		StringBuilder sb = new StringBuilder(phrase);
-		for (int i = 0; i < remaining; i++ ) {
+		for (int i = 0; i < remaining-1; i++ ) {
 			sb.append(" ");
 		}
+		
 
-		return phrase;
+		return sb.toString();
 
 	}
 
