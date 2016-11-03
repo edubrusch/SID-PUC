@@ -8,9 +8,9 @@ public class TextBasedInterface implements SpeculateInterface {
 	private final int MAX_OPTION_SIZE = 66;
 	private final String filledHole = "O";
 	private final String emptyHole = "_";
-	private final String indiscreteClean = "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"; 
-	
-	
+	private final String indiscreteClean = "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n";
+
+
 	private String board =
 			" _____________________________________________________________________\n"+
 			"|                                                                     |\n"+
@@ -87,7 +87,7 @@ public class TextBasedInterface implements SpeculateInterface {
 		for (int i = 0; i < remaining-1; i++ ) {
 			sb.append(" ");
 		}
-		
+
 
 		return sb.toString();
 
@@ -102,13 +102,17 @@ public class TextBasedInterface implements SpeculateInterface {
 
 	public void victoryScreen(GameState currentGameState) {
 		String phrase = "You won! play again?";
-		drawScreen(currentGameState, phrase, "      ", "      ");
+		String phrase2 = "Send 1 to play again,";
+		String phrase3 = "or send 0 to leave the game.";
+		drawScreen(currentGameState, phrase, phrase2, phrase3);
 
 	}
 
 	public void looseScreen(GameState currentGameState) {
-		String phrase = "you loose. Try again?";
-		drawScreen(currentGameState, phrase, "      ", "      ");
+		String phrase = "You loose. Try again?";
+		String phrase2 = "Send 1 to play again,";
+		String phrase3 = "or send 0 to leave the game.";
+		drawScreen(currentGameState, phrase, phrase2, phrase3);
 
 	}
 

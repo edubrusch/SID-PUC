@@ -24,25 +24,24 @@ public class SpeculateGameClient {
 
 		String serviceFullName = bar + bar + ServerProperties.SERVER_ADDRESS.getString() + bar + "SPECULATE";
 		input  = new Scanner(System.in);
-		
-		
+
+
 		try {
+
+			server = (SpeculateRemote)Naming.lookup(serviceFullName);
+			idClient = server.getPID();
+			if(idClient == 0) {
+				System.out.println("Server is full at the moment. Please try again later");
+			}
+			System.out.println("INFO: pid is "+idClient);
+
 
 			int opt = 1;
 
 			while ( opt != 0 ) {
-				server = (SpeculateRemote)Naming.lookup(serviceFullName);
-				idClient = server.getPID();
-				if(idClient == 0) {
-					System.out.println("Server is full at the moment. Please try again later");
-				}
-				System.out.println("INFO: pid is "+idClient);
+
 				opt = beginClient();
 			}
-
-
-
-
 
 		}  catch (Exception e) {
 
@@ -86,7 +85,7 @@ public class SpeculateGameClient {
 							screen.drawMakeYourMove(currentGameState);
 							int plays = gameGetPlayerInput();
 							screen.drawImMoving(currentGameState);
-							currentGameState = server.makePlayerMove(idClient, plays);							
+							currentGameState = server.makePlayerMove(idClient, plays);
 
 						} else {
 							screen.drawWaitingOpponent(currentGameState);
@@ -109,7 +108,7 @@ public class SpeculateGameClient {
 		return input.nextInt();
 	}
 
-	
+
 
 	private void waitTime() {
 		try {
