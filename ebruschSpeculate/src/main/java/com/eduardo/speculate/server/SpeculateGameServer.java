@@ -11,16 +11,14 @@ import com.eduardo.speculate.game.SixFaceDice;
 public class SpeculateGameServer implements SpeculateRemote {
 
 	static private Integer nextPID = 1;
+	private int serverLimit;
 	private final GameBoard board;
 	private final ArrayList<GameRoom> playerLobby;	
 
 	public SpeculateGameServer() throws RemoteException, NumberFormatException {
 		
-		//int serverLimit = ServerProperties.MAX_MATCH_COUNT.getInt() * 2;
-		// TODO fix server limit.
-
-		board = new GameBoard();
-		//playerLobby = new ArrayList <GameRoom> (serverLimit);		
+		serverLimit = ServerProperties.MAX_MATCH_COUNT.getInt();
+		board = new GameBoard();				
 		playerLobby = new ArrayList <GameRoom> ();		
 		
 		board.equals(new GameBoard());
@@ -290,10 +288,15 @@ public class SpeculateGameServer implements SpeculateRemote {
 			for (int i = 0; i <= playerLobby.size(); i++) {
 				
 				if (i == playerLobby.size()) {
-					insertPoint = new GameRoom();
-					playerLobby.add(insertPoint);
-					found = true;
-					break;
+					
+					if(i==serverLimit) {
+						return false;
+					} else {
+						insertPoint = new GameRoom();
+						playerLobby.add(insertPoint);
+						found = true;
+						break;
+					}
 				}
 				
 				if (!playerLobby.get(i).full()) {

@@ -69,14 +69,14 @@ public class SpeculateGameClient {
 
 				if(currentGameState.isWinner()) {
 					screen.victoryScreen(currentGameState);
-					stillInTheGame = gameGetPlayerInput();
+					stillInTheGame = 0;
 					inAGame = false;
 
 				} else {
 
 					if(currentGameState.isLooser()) {
 						screen.looseScreen(currentGameState);
-						stillInTheGame = gameGetPlayerInput();
+						stillInTheGame = 0;
 						inAGame = false;
 
 					} else {

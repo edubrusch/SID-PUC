@@ -2,7 +2,6 @@ package com.eduardo.speculate.commons;
 
 public enum Constants {
 
-	//SERVER_PROPERTIES("H:/homewin/game.properties"),
 	SERVER_PROPERTIES("C:/game.properties"),
 	GAME_VERSION("Speculate V. 1.0"),
 	PLAYER_ONE("Player One"),

@@ -102,17 +102,15 @@ public class TextBasedInterface implements SpeculateInterface {
 
 	public void victoryScreen(GameState currentGameState) {
 		String phrase = "You won! play again?";
-		String phrase2 = "Send 1 to play again,";
-		String phrase3 = "or send 0 to leave the game.";
-		drawScreen(currentGameState, phrase, phrase2, phrase3);
+		String phrase2 = "leaving the game in 5 seconds.";		
+		drawScreen(currentGameState, phrase, phrase2, "      ");
 
 	}
 
 	public void looseScreen(GameState currentGameState) {
 		String phrase = "You loose. Try again?";
-		String phrase2 = "Send 1 to play again,";
-		String phrase3 = "or send 0 to leave the game.";
-		drawScreen(currentGameState, phrase, phrase2, phrase3);
+		String phrase2 = "leaving the game in 5 seconds.";		
+		drawScreen(currentGameState, phrase, phrase2, "      ");
 
 	}
 
