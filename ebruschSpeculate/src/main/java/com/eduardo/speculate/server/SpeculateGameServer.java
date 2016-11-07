@@ -13,14 +13,14 @@ public class SpeculateGameServer implements SpeculateRemote {
 	static private Integer nextPID = 1;
 	private int serverLimit;
 	private final GameBoard board;
-	private final ArrayList<GameRoom> playerLobby;	
+	private final ArrayList<GameRoom> playerLobby;
 
 	public SpeculateGameServer() throws RemoteException, NumberFormatException {
-		
+
 		serverLimit = ServerProperties.MAX_MATCH_COUNT.getInt();
-		board = new GameBoard();				
-		playerLobby = new ArrayList <GameRoom> ();		
-		
+		board = new GameBoard();
+		playerLobby = new ArrayList <GameRoom> ();
+
 		board.equals(new GameBoard());
 
 	}
@@ -34,7 +34,6 @@ public class SpeculateGameServer implements SpeculateRemote {
 		int pid;
 		pid = nextPID;
 		boolean addPlayer = insertPlayer(pid);
-
 
 
 //		if client receives 0, it must say it servers were full.
@@ -114,15 +113,13 @@ public class SpeculateGameServer implements SpeculateRemote {
 
 		// dice roll must be a 1 to 6 number, should be defined in the dice.
 		for (int i = numberOfThrows; i > 0; i--) {
-			System.out.println("DEBUG: throwing "+i);
+			System.out.println("DEBUG: rolling dice: "+i);
 			updateGameBoardsetNumber(dice.rollDice(), playerID);
-//			commented part above for testing purposes only
-//			decreaseBallPlayer(playerID);
-			System.out.println("player ball: "+getGameRoom(playerID).getPlayer(playerID).getballCount());
+			System.out.println("player balls: "+getGameRoom(playerID).getPlayer(playerID).getballCount());
 			waitTime(2000);
 		}
 
-//TODO create gamestate after deciding if there was a winner. is winner return ismytime = true, so that the other player do not want to play
+		//create gamestate which shall be later returned to the client.
 		GameState output = new GameState(getCurrentBoard(), getAdversaryRemainingMoves(playerID), getAdversaryRemainingBalls(playerID), getPlayerRemainingBalls(playerID), false);
 
 		updateNextPlayer(getGameRoom(playerID).getAdversary(playerID).getPlayerID());
@@ -137,6 +134,11 @@ public class SpeculateGameServer implements SpeculateRemote {
 	}
 
 
+	/**
+	 * Server utilities Private Methods to handle game objects according to the
+	 * server needs
+	 */
+
 	private void waitTime(int i) {
 		try {
 			Thread.sleep(i);
@@ -145,11 +147,6 @@ public class SpeculateGameServer implements SpeculateRemote {
 			throw new RuntimeException(Strings.GENERAL_EXECUTION_ERROR.get(), e);
 		}
 	}
-
-	/**
-	 * Server utilities Private Methods to handle game objects according to the
-	 * server needs
-	 */
 
 	private synchronized void updateNextPlayer(int playerID) {
 
@@ -239,10 +236,10 @@ public class SpeculateGameServer implements SpeculateRemote {
 	}
 
 	private synchronized GameRoom getGameRoom(int playerID) {
-		
+
 		for (int i = 0; i <= playerLobby.size(); i++) {
 			if (playerLobby.get(i).getPlayer(playerID) != null) {
-				return playerLobby.get(i);				
+				return playerLobby.get(i);
 			}
 		}
 		return null;
@@ -276,8 +273,8 @@ public class SpeculateGameServer implements SpeculateRemote {
 		// it went to the end of the for without finding and theres room then I
 		// add another gameroon. if it's full inser is false
 
-		
-		
+
+
 		if (playerLobby.isEmpty()) {
 
 			insertPoint = new GameRoom();
@@ -286,9 +283,9 @@ public class SpeculateGameServer implements SpeculateRemote {
 		} else {
 
 			for (int i = 0; i <= playerLobby.size(); i++) {
-				
+
 				if (i == playerLobby.size()) {
-					
+
 					if(i==serverLimit) {
 						return false;
 					} else {
@@ -298,13 +295,13 @@ public class SpeculateGameServer implements SpeculateRemote {
 						break;
 					}
 				}
-				
+
 				if (!playerLobby.get(i).full()) {
 
 					insertPoint = playerLobby.get(i);
 					found = true;
 					break;
-				}				
+				}
 			}
 		}
 
@@ -314,7 +311,5 @@ public class SpeculateGameServer implements SpeculateRemote {
 
 		return found;
 	}
-
-	// http://stackoverflow.com/questions/33476910/eclipse-mars-consistently-fails-resolving-imports-after-saving-but-cleaning-pro
 
 }
